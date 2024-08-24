@@ -1,6 +1,12 @@
 package com.example.smartgarage.controllers.MVC;
 
+import com.example.smartgarage.exceptions.AuthorizationException;
+import com.example.smartgarage.exceptions.EntityDuplicateException;
 import com.example.smartgarage.helpers.AuthenticationHelper;
+import com.example.smartgarage.helpers.UserMapper;
+import com.example.smartgarage.models.LoginDto;
+import com.example.smartgarage.models.RegisterDto;
+import com.example.smartgarage.models.User;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -52,7 +58,6 @@ public class AuthenticationController {
         try {
             User user = authenticationHelper.verifyAuthentication(dto.getUsername(), dto.getPassword());
             session.setAttribute("currentUser", dto.getUsername());
-            session.setAttribute("isAdmin", user.isAdmin());
             return "redirect:/";
         } catch (AuthorizationException e) {
             bindingResult.rejectValue("username", "auth_error", e.getMessage());

@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CreateUserMapper {
+public class UserMapper {
 
     private UserService userService;
 
     @Autowired
-    public CreateUserMapper(UserService userService) {
+    public UserMapper(UserService userService) {
         this.userService = userService;
     }
 

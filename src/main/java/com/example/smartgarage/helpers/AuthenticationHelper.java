@@ -1,5 +1,8 @@
 package com.example.smartgarage.helpers;
 
+import com.example.smartgarage.exceptions.AuthorizationException;
+import com.example.smartgarage.exceptions.EntityNotFoundException;
+import com.example.smartgarage.models.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -43,9 +46,6 @@ public class AuthenticationHelper {
         try {
             User user = userService.getByUsername(username);
             if (!user.getPassword().equals(password)) {
-                throw new AuthorizationException(INVALID_AUTHENTICATION_ERROR);
-            }
-            if (!user.isActive() || user.isBlocked()) {
                 throw new AuthorizationException(INVALID_AUTHENTICATION_ERROR);
             }
             return user;
