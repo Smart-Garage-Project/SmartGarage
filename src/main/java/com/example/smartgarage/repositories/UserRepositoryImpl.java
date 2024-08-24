@@ -1,5 +1,6 @@
 package com.example.smartgarage.repositories;
 
+import com.example.smartgarage.exceptions.EntityDuplicateException;
 import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.models.User;
 import org.hibernate.Session;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public class UserRepositoryImpl implements UserRepository{
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
     @Autowired
     public UserRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -23,6 +24,43 @@ public class UserRepositoryImpl implements UserRepository{
                 throw new EntityNotFoundException("User", 0);
             }
             return list;
+        }
+    }
+
+    @Override
+    public User getById(int id) {
+        try (Session session = sessionFactory.openSession()) {
+            User user = session.get(User.class, id);
+            if (user == null) {
+                throw new EntityNotFoundException("User", id);
+            }
+            return user;
+        }
+    }
+
+    @Override
+    public User getByUsername(String username) {
+        try(Session session = sessionFactory.openSession()) {
+            List<User> result = session.createQuery("from User where username = :username", User.class)
+                    .setParameter("username", username)
+                    .list();
+            if (result.isEmpty()) {
+                throw new EntityNotFoundException("User", "username", username);
+            }
+            return result.get(0);
+        }
+    }
+
+    @Override
+    public User create(User user) {
+        if (getByUsername(user.getUsername()) != null) {
+            throw new EntityDuplicateException("User", "username", user.getUsername());
+        }
+        try(Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.persist(user);
+            session.getTransaction().commit();
+            return user;
         }
     }
 }

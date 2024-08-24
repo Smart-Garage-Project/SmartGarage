@@ -38,14 +38,21 @@ public class User {
     public User() {
     }
 
-    public User(String username, String password, String email, String phone, boolean isEmployee) {
+    public User(int id, String username, String password, String email, String phone, boolean isEmployee) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.phone = phone;
         this.isEmployee = isEmployee;
+        this.id = id;
     }
 
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getUsername() {
         return username;
     }
