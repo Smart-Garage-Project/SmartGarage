@@ -3,24 +3,35 @@ package com.example.smartgarage.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import org.checkerframework.common.aliasing.qual.Unique;
+
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+
+    @Unique
     @Column(name = "username")
     private String username;
+
     @JsonIgnore
     @Column(name = "password")
     private String password;
+
+    @Unique
     @Email
     @Column(name = "email")
     private String email;
+
     @Column(name = "phone_number")
     private String phone;
+
     @Column(name = "is_employee")
     private boolean isEmployee;
 
@@ -73,5 +84,19 @@ public class User {
 
     public void setEmployee(boolean isEmployee) {
         this.isEmployee = isEmployee;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password)
+                && Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, email);
     }
 }
