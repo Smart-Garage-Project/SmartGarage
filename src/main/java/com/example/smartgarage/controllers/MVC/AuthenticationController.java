@@ -1,5 +1,6 @@
 package com.example.smartgarage.controllers.MVC;
 
+import com.example.smartgarage.helpers.AuthenticationHelper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
