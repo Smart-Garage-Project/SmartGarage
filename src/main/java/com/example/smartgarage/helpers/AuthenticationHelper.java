@@ -3,7 +3,6 @@ package com.example.smartgarage.helpers;
 import com.example.smartgarage.exceptions.AuthorizationException;
 import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.models.User;
-import com.example.smartgarage.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -32,17 +31,17 @@ public class AuthenticationHelper {
         String password = getPassword(userInfo);
         return verifyAuthentication(username, password);
     }
-//
-//    public User tryGetCurrentUser(HttpSession session) {
-//        String currentUsername = (String) session.getAttribute("currentUser");
-//
-//        if (currentUsername == null) {
-//            throw new AuthorizationException(INVALID_AUTHENTICATION_ERROR);
-//        }
-//
-//        return userService.getByUsername(currentUsername);
-//    }
-//
+
+    public User tryGetCurrentUser(HttpSession session) {
+        String currentUsername = (String) session.getAttribute("currentUser");
+
+        if (currentUsername == null) {
+            throw new AuthorizationException(INVALID_AUTHENTICATION_ERROR);
+        }
+
+        return userService.getByUsername(currentUsername);
+    }
+
     public User verifyAuthentication(String username, String password) {
         try {
             User user = userService.getByUsername(username);
