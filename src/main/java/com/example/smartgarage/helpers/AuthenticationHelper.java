@@ -3,6 +3,7 @@ package com.example.smartgarage.helpers;
 import com.example.smartgarage.exceptions.AuthorizationException;
 import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.models.User;
+import com.example.smartgarage.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

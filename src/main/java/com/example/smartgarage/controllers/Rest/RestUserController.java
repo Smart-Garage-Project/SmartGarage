@@ -34,8 +34,7 @@ public class RestUserController {
     public List<User> getUsers(@RequestHeader HttpHeaders headers) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
-            checkIfCurrentUserIsEmployee(user);
-            return userService.getUsers();
+            return userService.getUsers(user);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }catch (AuthorizationException e) {
@@ -47,8 +46,7 @@ public class RestUserController {
     public User getUserById(@RequestHeader HttpHeaders headers, @PathVariable int id) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
-            checkIfCurrentUserIsEmployeeOrIsSameAsTargetUser(user, id);
-            return userService.getById(id);
+            return userService.getById(id, user);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }catch (AuthorizationException e) {
@@ -58,28 +56,22 @@ public class RestUserController {
     @PostMapping
     public User create(@Valid @RequestBody RegisterDto registerDto){
         try {
-            User user = userMapper.getUserFromRegisterDto(registerDto);
+            User user = userMapper.registerFromDto(registerDto);
             return userService.create(user);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }catch (EntityDuplicateException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
-    private void checkIfCurrentUserIsEmployee(User user) {
-        if(!user.isEmployee()){
-            throw new AuthorizationException("You have to be employee to browse this information.");
+    @PutMapping("/{id}")
+    public User update(@RequestHeader HttpHeaders headers, @PathVariable int id, @Valid @RequestBody RegisterDto registerDto) {
+        try {
+            User user = authenticationHelper.tryGetUser(headers);
+            User updatedUser = userMapper.registerFromDto(registerDto);
+            return userService.update(id, updatedUser, user);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
-    private void checkIfCurrentUserIsSameAsTargetUser(User user, int id) {
-        if(user.getId() != id){
-            throw new AuthorizationException("You are not authorized to browse this information.");
-        }
-    }
-    private void checkIfCurrentUserIsEmployeeOrIsSameAsTargetUser(User user, int id) {
-        if(!user.isEmployee() && user.getId() != id){
-            throw new AuthorizationException("You are not authorized to browse this information.");
-        }
-    }
-
 }

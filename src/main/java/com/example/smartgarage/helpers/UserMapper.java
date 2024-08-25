@@ -2,13 +2,14 @@ package com.example.smartgarage.helpers;
 
 import com.example.smartgarage.models.RegisterDto;
 import com.example.smartgarage.models.User;
+import com.example.smartgarage.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserMapper(UserService userService) {

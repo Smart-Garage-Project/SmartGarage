@@ -53,12 +53,34 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public User create(User user) {
-        if (getByUsername(user.getUsername()) != null) {
+        try {
+            getByUsername(user.getUsername());
             throw new EntityDuplicateException("User", "username", user.getUsername());
+        }catch (EntityNotFoundException e) {
+            // user does not exist
         }
         try(Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.persist(user);
+            session.getTransaction().commit();
+            return user;
+        }
+    }
+
+    @Override
+    public User update(int id, User updatedUser) {
+        try(Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            User user = session.get(User.class, id);
+            if (user == null) {
+                throw new EntityNotFoundException("User", id);
+            }
+            user.setUsername(updatedUser.getUsername());
+            user.setPassword(updatedUser.getPassword());
+            user.setEmail(updatedUser.getEmail());
+            user.setEmployee(updatedUser.isEmployee());
+            user.setPhone(updatedUser.getPhone());
+            session.merge(user);
             session.getTransaction().commit();
             return user;
         }
