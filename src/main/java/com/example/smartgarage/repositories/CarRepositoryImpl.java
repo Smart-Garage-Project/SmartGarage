@@ -5,9 +5,10 @@ import com.example.smartgarage.models.Car;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public class CarRepositoryImpl implements CarRepository {
 
     private final SessionFactory sessionFactory;
@@ -57,6 +58,13 @@ public class CarRepositoryImpl implements CarRepository {
             session.beginTransaction();
             session.merge(car);
             session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public List<Car> getCars() {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("from Car", Car.class).list();
         }
     }
 }

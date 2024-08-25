@@ -1,6 +1,7 @@
 package com.example.smartgarage.services;
 
 import com.example.smartgarage.exceptions.AuthorizationException;
+import com.example.smartgarage.helpers.AuthorizationHelper;
 import com.example.smartgarage.models.User;
 import com.example.smartgarage.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,22 +10,24 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
+    private final AuthorizationHelper authorizationHelper;
     private final UserRepository userRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(AuthorizationHelper authorizationHelper, UserRepository userRepository) {
+        this.authorizationHelper = authorizationHelper;
         this.userRepository = userRepository;
     }
 
     @Override
     public List<User> getUsers(User currentUser) {
-        checkIfCurrentUserIsEmployee(currentUser);
+        authorizationHelper.checkIfCurrentUserIsEmployee(currentUser);
         return userRepository.getUsers();
     }
 
     @Override
     public User getById(int id, User currentUser) {
-        checkIfCurrentUserIsEmployeeOrIsSameAsTargetUser(currentUser, id);
+        authorizationHelper.checkIfCurrentUserIsEmployeeOrIsSameAsTargetUser(currentUser, id);
         return userRepository.getById(id);
     }
 
@@ -40,25 +43,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(int id, User updatedUser, User user) {
-        checkIfCurrentUserIsSameAsTargetUser(user, id);
+        authorizationHelper.checkIfCurrentUserIsSameAsTargetUser(user, id);
         return userRepository.update(id, updatedUser);
-    }
-
-    private void checkIfCurrentUserIsEmployee(User user) {
-        if (!user.isEmployee()) {
-            throw new AuthorizationException("You have to be employee to browse this information.");
-        }
-    }
-
-    private void checkIfCurrentUserIsSameAsTargetUser(User user, int id) {
-        if (user.getId() != id) {
-            throw new AuthorizationException("You are not authorized to browse this information.");
-        }
-    }
-
-    private void checkIfCurrentUserIsEmployeeOrIsSameAsTargetUser(User user, int id) {
-        if (!user.isEmployee() && user.getId() != id) {
-            throw new AuthorizationException("You are not authorized to browse this information.");
-        }
     }
 }
