@@ -9,4 +9,6 @@ public interface CarService {
     List<Car> getCars(User user);
 
     Car getById(int id, User user);
+
+    Car create(Car car, User user);
 }

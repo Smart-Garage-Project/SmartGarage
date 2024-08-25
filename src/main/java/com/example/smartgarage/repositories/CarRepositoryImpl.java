@@ -1,5 +1,6 @@
 package com.example.smartgarage.repositories;
 
+import com.example.smartgarage.exceptions.EntityDuplicateException;
 import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.models.Car;
 import org.hibernate.Session;
@@ -44,13 +45,24 @@ public class CarRepositoryImpl implements CarRepository {
     }
 
     @Override
-    public void create(Car car) {
+    public Car create(Car car) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
+
+            Query<Car> query = session.createQuery("from Car where licensePlate = :licensePlate", Car.class);
+            query.setParameter("licensePlate", car.getLicensePlate());
+            List<Car> existingCars = query.list();
+
+            if (!existingCars.isEmpty()) {
+                throw new EntityDuplicateException("A car with the same license plate already exists.");
+            }
+
             session.persist(car);
             session.getTransaction().commit();
         }
+        return getById(car.getId());
     }
+
 
     @Override
     public void update(Car car) {

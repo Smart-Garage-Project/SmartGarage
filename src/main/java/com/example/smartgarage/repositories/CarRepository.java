@@ -8,7 +8,7 @@ public interface CarRepository {
 
     List<Car> getUserCars(int userId);
 
-    void create(Car car);
+    Car create(Car car);
 
     void update(Car car);
 
