@@ -8,11 +8,11 @@ public interface CarRepository {
 
     List<Car> getUserCars(int userId);
 
-    Car getCarById(int carId);
-
     void create(Car car);
 
     void update(Car car);
 
     List<Car> getCars();
+
+    Car getById(int id);
 }

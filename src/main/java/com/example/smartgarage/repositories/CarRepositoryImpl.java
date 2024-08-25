@@ -31,13 +31,13 @@ public class CarRepositoryImpl implements CarRepository {
     }
 
     @Override
-    public Car getCarById(int carId) {
+    public Car getById(int id) {
         try (Session session = sessionFactory.openSession()) {
             Query<Car> query = session.createQuery("from Car where id = :carId", Car.class);
-            query.setParameter("carId", carId);
+            query.setParameter("carId", id);
             List<Car> cars = query.list();
             if (cars.isEmpty()) {
-                throw new EntityNotFoundException("Car", carId);
+                throw new EntityNotFoundException("Car", id);
             }
             return cars.get(0);
         }

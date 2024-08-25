@@ -24,4 +24,10 @@ public class CarServiceImpl implements CarService {
         authorizationHelper.checkIfCurrentUserIsEmployee(user);
         return carRepository.getCars();
     }
+
+    @Override
+    public Car getById(int id, User user) {
+        authorizationHelper.checkIfCurrentUserIsEmployee(user);
+        return carRepository.getById(id);
+    }
 }
