@@ -6,6 +6,7 @@ import com.example.smartgarage.models.User;
 import java.util.List;
 
 public interface UserRepository {
+
     List<User> getUsers();
 
     User getById(int id);

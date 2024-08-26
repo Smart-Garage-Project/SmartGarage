@@ -11,11 +11,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public class UserRepositoryImpl implements UserRepository{
+
     private final SessionFactory sessionFactory;
+
     @Autowired
     public UserRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
+
     @Override
     public List<User> getUsers() {
         try (Session session = sessionFactory.openSession()) {

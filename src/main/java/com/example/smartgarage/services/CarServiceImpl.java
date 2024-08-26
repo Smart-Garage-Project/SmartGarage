@@ -11,8 +11,11 @@ import java.util.List;
 
 @Service
 public class CarServiceImpl implements CarService {
+
     private final AuthorizationHelper authorizationHelper;
+
     private final CarRepository carRepository;
+
     @Autowired
     public CarServiceImpl(AuthorizationHelper authorizationHelper, CarRepository carRepository) {
         this.authorizationHelper = authorizationHelper;

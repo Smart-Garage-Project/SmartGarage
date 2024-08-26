@@ -5,6 +5,7 @@ import com.example.smartgarage.models.User;
 import java.util.List;
 
 public interface UserService {
+
     List<User> getUsers(User currentUser);
 
     User getById(int id, User currentUser);
