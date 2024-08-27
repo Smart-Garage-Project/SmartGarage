@@ -87,12 +87,12 @@ public class AuthenticationController {
             return "register";
         }
 
-        if (!register.getPassword().equals(register.getPasswordConfirm())) {
-            bindingResult.rejectValue("confirmPassword",
-                    "password_error",
-                    "Password confirmation should match password");
-            return "register";
-        }
+//        if (!register.getPassword().equals(register.getPasswordConfirm())) {
+//            bindingResult.rejectValue("confirmPassword",
+//                    "password_error",
+//                    "Password confirmation should match password");
+//            return "register";
+//        }
 
         try {
             User user = userMapper.registerFromDto(register);

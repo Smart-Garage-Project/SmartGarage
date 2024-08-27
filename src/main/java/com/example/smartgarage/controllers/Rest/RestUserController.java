@@ -53,7 +53,7 @@ public class RestUserController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
-    @PostMapping
+    @PostMapping("/register")
     public User create(@Valid @RequestBody RegisterDto registerDto){
         try {
             User user = userMapper.registerFromDto(registerDto);

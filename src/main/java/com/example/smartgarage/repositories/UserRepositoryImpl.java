@@ -1,6 +1,5 @@
 package com.example.smartgarage.repositories;
 
-import com.example.smartgarage.exceptions.EntityDuplicateException;
 import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.models.User;
 import org.hibernate.Session;
@@ -56,12 +55,7 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public User create(User user) {
-        try {
-            getByUsername(user.getUsername());
-            throw new EntityDuplicateException("User", "username", user.getUsername());
-        }catch (EntityNotFoundException e) {
-            // user does not exist
-        }
+
         try(Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.persist(user);
@@ -82,7 +76,7 @@ public class UserRepositoryImpl implements UserRepository{
             user.setPassword(updatedUser.getPassword());
             user.setEmail(updatedUser.getEmail());
             user.setEmployee(updatedUser.isEmployee());
-            user.setPhone(updatedUser.getPhone());
+            user.setPhoneNumber(updatedUser.getPhoneNumber());
             session.merge(user);
             session.getTransaction().commit();
             return user;

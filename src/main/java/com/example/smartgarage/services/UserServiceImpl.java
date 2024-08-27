@@ -1,6 +1,7 @@
 package com.example.smartgarage.services;
 
-import com.example.smartgarage.exceptions.AuthorizationException;
+import com.example.smartgarage.exceptions.EntityDuplicateException;
+import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.helpers.AuthorizationHelper;
 import com.example.smartgarage.models.User;
 import com.example.smartgarage.repositories.UserRepository;
@@ -40,6 +41,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
+
+        boolean duplicateExists = true;
+
+        try {
+            userRepository.getByUsername(user.getUsername());
+        } catch (EntityNotFoundException e) {
+            duplicateExists = false;
+        }
+
+        if (duplicateExists) {
+            throw new EntityDuplicateException("User", "username", user.getUsername());
+        }
+
         return userRepository.create(user);
     }
 
