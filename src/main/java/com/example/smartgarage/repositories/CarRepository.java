@@ -10,7 +10,7 @@ public interface CarRepository {
 
     Car create(Car car);
 
-    void update(Car car);
+    Car update(int id, Car car);
 
     List<Car> getCars();
 

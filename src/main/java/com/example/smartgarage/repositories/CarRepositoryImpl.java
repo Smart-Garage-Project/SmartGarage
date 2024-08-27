@@ -65,12 +65,14 @@ public class CarRepositoryImpl implements CarRepository {
 
 
     @Override
-    public void update(Car car) {
+    public Car update(int id, Car car) {
+        getById(id);
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.merge(car);
             session.getTransaction().commit();
         }
+        return getById(id);
     }
 
     @Override

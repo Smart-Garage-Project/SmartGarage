@@ -12,4 +12,6 @@ public interface CarService {
     Car getById(int id, User user);
 
     Car create(Car car, User user);
+
+    Car update(int id, Car car, User user);
 }
