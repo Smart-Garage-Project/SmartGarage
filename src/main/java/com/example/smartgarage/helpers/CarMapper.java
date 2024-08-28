@@ -2,7 +2,7 @@ package com.example.smartgarage.helpers;
 
 import com.example.smartgarage.models.Car;
 import com.example.smartgarage.models.CarDto;
-import com.example.smartgarage.services.UserService;
+import com.example.smartgarage.services.contracts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

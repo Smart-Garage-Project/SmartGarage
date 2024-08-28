@@ -4,7 +4,8 @@ import com.example.smartgarage.exceptions.EntityDuplicateException;
 import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.helpers.AuthorizationHelper;
 import com.example.smartgarage.models.User;
-import com.example.smartgarage.repositories.UserRepository;
+import com.example.smartgarage.repositories.contracts.UserRepository;
+import com.example.smartgarage.services.contracts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

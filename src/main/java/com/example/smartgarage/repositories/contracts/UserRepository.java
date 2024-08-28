@@ -1,6 +1,5 @@
-package com.example.smartgarage.repositories;
+package com.example.smartgarage.repositories.contracts;
 
-import com.example.smartgarage.models.RegisterDto;
 import com.example.smartgarage.models.User;
 
 import java.util.List;

@@ -7,8 +7,10 @@ import com.example.smartgarage.helpers.AuthenticationHelper;
 import com.example.smartgarage.helpers.CarMapper;
 import com.example.smartgarage.models.Car;
 import com.example.smartgarage.models.CarDto;
+import com.example.smartgarage.models.ServiceModel;
 import com.example.smartgarage.models.User;
-import com.example.smartgarage.services.CarService;
+import com.example.smartgarage.services.contracts.CarService;
+import com.example.smartgarage.services.contracts.ServiceService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -24,13 +26,16 @@ public class RestCarController {
 
     private final CarService carService;
 
+    private final ServiceService serviceService;
+
     private final AuthenticationHelper authenticationHelper;
 
     private final CarMapper carMapper;
 
     @Autowired
-    public RestCarController(CarService carService, AuthenticationHelper authenticationHelper, CarMapper carMapper) {
+    public RestCarController(CarService carService, ServiceService serviceService, AuthenticationHelper authenticationHelper, CarMapper carMapper) {
         this.carService = carService;
+        this.serviceService = serviceService;
         this.authenticationHelper = authenticationHelper;
         this.carMapper = carMapper;
     }
@@ -78,6 +83,16 @@ public class RestCarController {
             return carService.update(id, car, user);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}/services")
+    public List<ServiceModel> getCarServices(@RequestHeader HttpHeaders headers, @PathVariable int id) {
+        try {
+            User user = authenticationHelper.tryGetUser(headers);
+            return serviceService.getByCarId(id);
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }

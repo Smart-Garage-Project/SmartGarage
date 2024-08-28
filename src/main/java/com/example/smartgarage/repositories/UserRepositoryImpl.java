@@ -2,14 +2,16 @@ package com.example.smartgarage.repositories;
 
 import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.models.User;
+import com.example.smartgarage.repositories.contracts.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
-public class UserRepositoryImpl implements UserRepository{
+public class UserRepositoryImpl implements UserRepository {
 
     private final SessionFactory sessionFactory;
 

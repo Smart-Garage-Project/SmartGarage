@@ -3,6 +3,7 @@ package com.example.smartgarage.repositories;
 import com.example.smartgarage.exceptions.EntityDuplicateException;
 import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.models.Car;
+import com.example.smartgarage.repositories.contracts.CarRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -60,7 +61,7 @@ public class CarRepositoryImpl implements CarRepository {
             session.persist(car);
             session.getTransaction().commit();
         }
-        return getById(car.getId());
+        return car;
     }
 
 

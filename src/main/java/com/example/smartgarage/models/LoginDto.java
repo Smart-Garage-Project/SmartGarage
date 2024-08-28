@@ -1,9 +1,12 @@
 package com.example.smartgarage.models;
 
 import jakarta.validation.constraints.NotEmpty;
-import org.checkerframework.common.aliasing.qual.Unique;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+@Getter
+@Setter
 public class LoginDto {
 
     @NotEmpty
@@ -18,19 +21,4 @@ public class LoginDto {
 
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

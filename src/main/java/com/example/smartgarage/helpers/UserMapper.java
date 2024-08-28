@@ -3,7 +3,7 @@ package com.example.smartgarage.helpers;
 import com.example.smartgarage.models.RegisterDto;
 import com.example.smartgarage.models.User;
 import com.example.smartgarage.services.EmailService;
-import com.example.smartgarage.services.UserService;
+import com.example.smartgarage.services.contracts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

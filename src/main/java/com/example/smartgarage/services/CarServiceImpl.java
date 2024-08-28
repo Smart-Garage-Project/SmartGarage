@@ -3,7 +3,8 @@ package com.example.smartgarage.services;
 import com.example.smartgarage.helpers.AuthorizationHelper;
 import com.example.smartgarage.models.Car;
 import com.example.smartgarage.models.User;
-import com.example.smartgarage.repositories.CarRepository;
+import com.example.smartgarage.repositories.contracts.CarRepository;
+import com.example.smartgarage.services.contracts.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

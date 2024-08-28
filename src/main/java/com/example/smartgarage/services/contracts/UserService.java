@@ -1,4 +1,4 @@
-package com.example.smartgarage.services;
+package com.example.smartgarage.services.contracts;
 
 import com.example.smartgarage.models.User;
 

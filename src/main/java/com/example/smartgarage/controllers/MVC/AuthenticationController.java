@@ -7,7 +7,7 @@ import com.example.smartgarage.helpers.UserMapper;
 import com.example.smartgarage.models.LoginDto;
 import com.example.smartgarage.models.RegisterDto;
 import com.example.smartgarage.models.User;
-import com.example.smartgarage.services.UserService;
+import com.example.smartgarage.services.contracts.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package com.example.smartgarage.repositories;
+package com.example.smartgarage.repositories.contracts;
 
 import com.example.smartgarage.models.Car;
 
