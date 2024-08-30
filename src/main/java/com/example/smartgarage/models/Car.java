@@ -22,11 +22,11 @@ public class Car {
     @Column(name = "vin")
     private String vin;
 
-    @Column(name = "brand")
-    private String brand;
+    @Column(name = "brand_id")
+    private int brand;
 
-    @Column(name = "model")
-    private String model;
+    @Column(name = "model_id")
+    private int model;
 
     @Column(name = "year")
     private int year;
@@ -35,7 +35,6 @@ public class Car {
     @JoinColumn(name = "owner_id")
     private User owner;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "car_class")
-    private CarClass carClass;
+    @Column(name = "class_id")
+    private int carClass;
 }
