@@ -1,6 +1,5 @@
 package com.example.smartgarage.models;
 
-import com.example.smartgarage.models.enums.CarClass;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,11 +21,13 @@ public class Car {
     @Column(name = "vin")
     private String vin;
 
-    @Column(name = "brand_id")
-    private int brand;
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
-    @Column(name = "model_id")
-    private int model;
+    @ManyToOne
+    @JoinColumn(name = "model_id")
+    private Model model;
 
     @Column(name = "year")
     private int year;
@@ -35,6 +36,7 @@ public class Car {
     @JoinColumn(name = "owner_id")
     private User owner;
 
-    @Column(name = "class_id")
-    private int carClass;
+    @ManyToOne
+    @JoinColumn(name = "class_id")
+    private CarClass carClass;
 }

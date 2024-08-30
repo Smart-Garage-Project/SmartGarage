@@ -1,5 +1,6 @@
 package com.example.smartgarage.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 @Setter
 @Table(name = "models")
 public class Model {
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -17,6 +19,8 @@ public class Model {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "brand_id")
-    private int brand;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 }
