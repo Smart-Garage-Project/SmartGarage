@@ -1,11 +1,9 @@
 package com.example.smartgarage.helpers;
 
 import com.example.smartgarage.exceptions.EntityNotFoundException;
-import com.example.smartgarage.models.Brand;
-import com.example.smartgarage.models.Car;
-import com.example.smartgarage.models.CarDto;
-import com.example.smartgarage.models.Model;
+import com.example.smartgarage.models.*;
 import com.example.smartgarage.services.contracts.BrandService;
+import com.example.smartgarage.services.contracts.CarClassService;
 import com.example.smartgarage.services.contracts.ModelService;
 import com.example.smartgarage.services.contracts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +15,14 @@ public class CarMapper {
     private final UserService userService;
     private final ModelService modelService;
     private final BrandService brandService;
+    private final CarClassService carClassService;
 
     @Autowired
-    public CarMapper(UserService userService, ModelService modelService, BrandService brandService) {
+    public CarMapper(UserService userService, ModelService modelService, BrandService brandService, CarClassService carClassService) {
         this.userService = userService;
         this.modelService = modelService;
         this.brandService = brandService;
+        this.carClassService = carClassService;
     }
 
     public Car fromDto(CarDto carDto) {
@@ -48,6 +48,8 @@ public class CarMapper {
             model.setBrand(car.getBrand());
             car.setModel(modelService.create(model));
         }
+        CarClass carClass = carClassService.getByName(carDto.getCarClassName());
+        car.setCarClass(carClass);
         return car;
     }
 }

@@ -16,6 +16,8 @@ public class CarDto {
     private String brandName;
     @NotEmpty
     private String modelName;
+    @NotEmpty
+    private String carClassName;
 
     public CarDto() {
 
@@ -69,5 +71,13 @@ public class CarDto {
 
     public void setModelName(@NotEmpty String modelName) {
         this.modelName = modelName;
+    }
+
+    public @NotEmpty String getCarClassName() {
+        return carClassName;
+    }
+
+    public void setCarClassName(@NotEmpty String carClassName) {
+        this.carClassName = carClassName;
     }
 }
