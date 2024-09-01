@@ -59,19 +59,19 @@ public class ServiceServiceImpl implements ServiceService {
         double total = 0;
         switch (serviceModel.getCar().getCarClass().getName()){
             case "Low":
-                total = totalPartsPrice + totalPartsPrice * 0.1;
+                total = totalPartsPrice;
                 break;
 
             case "Mid":
-                total = totalPartsPrice + totalPartsPrice * 0.2;
+                total = 1.4 * totalPartsPrice;
                 break;
 
             case "High":
-                total = totalPartsPrice + totalPartsPrice * 0.4;
+                total = 1.8 * totalPartsPrice;
                 break;
 
             case "Exotic":
-                total = totalPartsPrice + totalPartsPrice;
+                total = 2 * totalPartsPrice;
                 break;
         }
         return total;
