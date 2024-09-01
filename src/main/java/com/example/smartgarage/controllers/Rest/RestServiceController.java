@@ -67,7 +67,7 @@ public class RestServiceController {
         try {
             User user = authenticationHelper.tryGetUser(headers);
             List<Part> parts = partIds.stream().map(partService::getById).collect(Collectors.toList());
-            serviceService.addPartsToService(id, parts);
+            serviceService.addPartsToService(id, parts, user);
             return serviceService.getById(id);
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());

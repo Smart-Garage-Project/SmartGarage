@@ -45,11 +45,35 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public void addPartsToService(int serviceId, List<Part> parts) {
+    public void addPartsToService(int serviceId, List<Part> parts, User user) {
+        authorizationHelper.checkIfCurrentUserIsEmployee(user);
         ServiceModel serviceModel = serviceRepository.getById(serviceId);
-        for (Part part : parts) {
-            serviceModel.getParts().add(part);
-        }
+        parts.forEach(part -> serviceModel.getParts().add(part));
+        serviceModel.setTotal(calculateTotalPrice(serviceModel));
         serviceRepository.update(serviceModel);
+    }
+
+    @Override
+    public double calculateTotalPrice(ServiceModel serviceModel) {
+        double totalPartsPrice = serviceModel.getParts().stream().mapToDouble(Part::getPrice).sum();
+        double total = 0;
+        switch (serviceModel.getCar().getCarClass().getName()){
+            case "Low":
+                total = totalPartsPrice + totalPartsPrice * 0.1;
+                break;
+
+            case "Mid":
+                total = totalPartsPrice + totalPartsPrice * 0.2;
+                break;
+
+            case "High":
+                total = totalPartsPrice + totalPartsPrice * 0.4;
+                break;
+
+            case "Exotic":
+                total = totalPartsPrice + totalPartsPrice;
+                break;
+        }
+        return total;
     }
 }

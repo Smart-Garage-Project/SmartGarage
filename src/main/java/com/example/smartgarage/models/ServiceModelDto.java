@@ -9,5 +9,4 @@ import java.util.List;
 @Setter
 public class ServiceModelDto {
     private int carId;
-    private List<Integer> partsIds;
 }

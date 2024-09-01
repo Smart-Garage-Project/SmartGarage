@@ -14,5 +14,7 @@ public interface ServiceService {
 
     ServiceModel create(ServiceModel serviceModel, User user);
 
-    void addPartsToService(int serviceId, List<Part> parts);
+    void addPartsToService(int serviceId, List<Part> parts, User user);
+
+    double calculateTotalPrice(ServiceModel serviceModel);
 }
