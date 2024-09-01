@@ -44,4 +44,13 @@ public class PartRepositoryImpl implements PartRepository {
             return list;
         }
     }
+
+    @Override
+    public List<Part> getListOfParts(List<Integer> partsIds) {
+        try(Session session = sessionFactory.openSession()) {
+            Query<Part> query = session.createQuery("from Part where id in :ids", Part.class);
+            query.setParameterList("ids", partsIds);
+            return query.list();
+        }
+    }
 }

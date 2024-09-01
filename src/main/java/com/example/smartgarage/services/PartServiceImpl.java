@@ -27,4 +27,10 @@ public class PartServiceImpl implements PartService {
     public Part getById(int id) {
         return partRepository.getById(id);
     }
+
+    @Override
+    public List<Part> getListOfParts(List<Integer> partsIds) {
+        return partRepository.getListOfParts(partsIds);
+    }
+
 }

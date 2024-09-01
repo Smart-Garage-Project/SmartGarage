@@ -9,4 +9,6 @@ public interface PartService {
     List<Part> getParts();
 
     Part getById(int id);
+
+    List<Part> getListOfParts(List<Integer> partsIds);
 }

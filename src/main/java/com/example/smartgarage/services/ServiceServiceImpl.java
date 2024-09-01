@@ -1,7 +1,9 @@
 package com.example.smartgarage.services;
 
+import com.example.smartgarage.helpers.AuthorizationHelper;
 import com.example.smartgarage.models.Part;
 import com.example.smartgarage.models.ServiceModel;
+import com.example.smartgarage.models.User;
 import com.example.smartgarage.repositories.contracts.ServiceRepository;
 import com.example.smartgarage.services.contracts.PartService;
 import com.example.smartgarage.services.contracts.ServiceService;
@@ -17,10 +19,13 @@ public class ServiceServiceImpl implements ServiceService {
 
     private final PartService partService;
 
+    private final AuthorizationHelper authorizationHelper;
+
     @Autowired
-    public ServiceServiceImpl(ServiceRepository serviceRepository, PartService partService) {
+    public ServiceServiceImpl(ServiceRepository serviceRepository, PartService partService, AuthorizationHelper authorizationHelper) {
         this.serviceRepository = serviceRepository;
         this.partService = partService;
+        this.authorizationHelper = authorizationHelper;
     }
 
     @Override
@@ -34,12 +39,13 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public ServiceModel create(ServiceModel serviceModel) {
+    public ServiceModel create(ServiceModel serviceModel, User user) {
+        authorizationHelper.checkIfCurrentUserIsEmployee(user);
         return serviceRepository.create(serviceModel);
     }
 
     @Override
-    public void addPartToService(int serviceId, List<Part> parts) {
+    public void addPartsToService(int serviceId, List<Part> parts) {
         ServiceModel serviceModel = serviceRepository.getById(serviceId);
         for (Part part : parts) {
             serviceModel.getParts().add(part);

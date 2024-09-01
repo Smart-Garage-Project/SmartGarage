@@ -9,4 +9,6 @@ public interface PartRepository {
     Part getById(int id);
 
     List<Part> getAll();
+
+    List<Part> getListOfParts(List<Integer> partsIds);
 }
