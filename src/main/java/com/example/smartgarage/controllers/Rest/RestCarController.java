@@ -1,8 +1,5 @@
 package com.example.smartgarage.controllers.Rest;
 
-import com.example.smartgarage.exceptions.AuthorizationException;
-import com.example.smartgarage.exceptions.EntityDuplicateException;
-import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.helpers.AuthenticationHelper;
 import com.example.smartgarage.helpers.CarMapper;
 import com.example.smartgarage.models.Car;
@@ -14,9 +11,7 @@ import com.example.smartgarage.services.contracts.ServiceService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -42,62 +37,33 @@ public class RestCarController {
 
     @GetMapping
     public List<Car> getCars(@RequestHeader HttpHeaders headers) {
-        try {
-            User user = authenticationHelper.tryGetUser(headers);
-            return carService.getCars(user);
-        } catch (AuthorizationException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
-        }
+        User user = authenticationHelper.tryGetUser(headers);
+        return carService.getCars(user);
     }
 
     @GetMapping("/{id}")
     public Car getCarById(@RequestHeader HttpHeaders headers, @PathVariable int id) {
-        try {
-            User user = authenticationHelper.tryGetUser(headers);
-            return carService.getById(id, user);
-        } catch (AuthorizationException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+        User user = authenticationHelper.tryGetUser(headers);
+        return carService.getById(id, user);
     }
 
     @PostMapping
-    public Car create(@RequestHeader HttpHeaders headers,@Valid @RequestBody CarDto carDto){
-        try {
-            User user = authenticationHelper.tryGetUser(headers);
-            Car car = carMapper.fromDto(carDto);
-            return carService.create(car, user);
-        } catch (EntityDuplicateException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
-        } catch (AuthorizationException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+    public Car create(@RequestHeader HttpHeaders headers, @Valid @RequestBody CarDto carDto) {
+        User user = authenticationHelper.tryGetUser(headers);
+        Car car = carMapper.fromDto(carDto);
+        return carService.create(car, user);
     }
 
     @PutMapping("/{id}")
     public Car update(@RequestHeader HttpHeaders headers, @PathVariable int id, @Valid @RequestBody CarDto carDto) {
-        try {
-            User user = authenticationHelper.tryGetUser(headers);
-            Car car = carMapper.fromDto(carDto);
-            return carService.update(id, car, user);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        } catch (AuthorizationException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
-        }
+        User user = authenticationHelper.tryGetUser(headers);
+        Car car = carMapper.fromDto(carDto);
+        return carService.update(id, car, user);
     }
 
     @GetMapping("/{id}/services")
     public List<ServiceModel> getCarServices(@RequestHeader HttpHeaders headers, @PathVariable int id) {
-        try {
-            User user = authenticationHelper.tryGetUser(headers);
-            return serviceService.getByCarId(id);
-        } catch (AuthorizationException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
-        }
+        User user = authenticationHelper.tryGetUser(headers);
+        return serviceService.getByCarId(id);
     }
-
 }

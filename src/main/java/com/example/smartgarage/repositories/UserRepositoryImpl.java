@@ -84,4 +84,17 @@ public class UserRepositoryImpl implements UserRepository {
             return user;
         }
     }
+
+    @Override
+    public void delete(int id) {
+        try(Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            User user = session.get(User.class, id);
+            if (user == null) {
+                throw new EntityNotFoundException("User", id);
+            }
+            session.remove(user);
+            session.getTransaction().commit();
+        }
+    }
 }

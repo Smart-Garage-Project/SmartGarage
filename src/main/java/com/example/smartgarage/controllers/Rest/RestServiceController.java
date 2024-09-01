@@ -1,7 +1,5 @@
 package com.example.smartgarage.controllers.Rest;
 
-import com.example.smartgarage.exceptions.AuthorizationException;
-import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.helpers.AuthenticationHelper;
 import com.example.smartgarage.helpers.ServiceModelMapper;
 import com.example.smartgarage.models.Part;
@@ -12,9 +10,7 @@ import com.example.smartgarage.services.contracts.PartService;
 import com.example.smartgarage.services.contracts.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,38 +37,22 @@ public class RestServiceController {
 
     @GetMapping("/{id}")
     public ServiceModel getServiceById(@RequestHeader HttpHeaders headers, @PathVariable int id) {
-        try {
-            User user = authenticationHelper.tryGetUser(headers);
-            return serviceService.getById(id);
-        } catch (AuthorizationException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+        User user = authenticationHelper.tryGetUser(headers);
+        return serviceService.getById(id);
     }
 
     @PostMapping
     public ServiceModel create(@RequestHeader HttpHeaders headers, @RequestBody ServiceModelDto serviceModelDto) {
-        try {
-            User user = authenticationHelper.tryGetUser(headers);
-            ServiceModel serviceModel = serviceModelMapper.fromDto(serviceModelDto, user);
-            return serviceService.create(serviceModel, user);
-        } catch (AuthorizationException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
-        }
+        User user = authenticationHelper.tryGetUser(headers);
+        ServiceModel serviceModel = serviceModelMapper.fromDto(serviceModelDto, user);
+        return serviceService.create(serviceModel, user);
     }
 
     @PostMapping("/{id}/parts")
     public ServiceModel addPartsToService(@RequestHeader HttpHeaders headers, @PathVariable int id, @RequestBody List<Integer> partIds) {
-        try {
-            User user = authenticationHelper.tryGetUser(headers);
-            List<Part> parts = partIds.stream().map(partService::getById).collect(Collectors.toList());
-            serviceService.addPartsToService(id, parts, user);
-            return serviceService.getById(id);
-        } catch (AuthorizationException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+        User user = authenticationHelper.tryGetUser(headers);
+        List<Part> parts = partIds.stream().map(partService::getById).collect(Collectors.toList());
+        serviceService.addPartsToService(id, parts, user);
+        return serviceService.getById(id);
     }
 }

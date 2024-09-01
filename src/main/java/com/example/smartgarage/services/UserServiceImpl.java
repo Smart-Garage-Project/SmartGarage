@@ -63,4 +63,10 @@ public class UserServiceImpl implements UserService {
         authorizationHelper.checkIfCurrentUserIsSameAsTargetUser(user, id);
         return userRepository.update(id, updatedUser);
     }
+
+    @Override
+    public void delete(int id, User user) {
+        authorizationHelper.checkIfCurrentUserIsEmployee(user);
+        userRepository.delete(id);
+    }
 }
