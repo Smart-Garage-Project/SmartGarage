@@ -58,7 +58,7 @@ public class ServiceServiceImpl implements ServiceService {
     public double calculateTotalPrice(ServiceModel serviceModel) {
         double totalPartsPrice = serviceModel.getParts().stream().mapToDouble(Part::getPrice).sum();
         double total = 0;
-        switch (serviceModel.getCar().getCarClass().getName()){
+        switch (serviceModel.getCar().getModel().getCarClass().getName()){
             case "Low":
                 total = totalPartsPrice;
                 break;
