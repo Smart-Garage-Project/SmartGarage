@@ -49,7 +49,7 @@ public class CarMapper {
             car.setModel(modelService.create(model));
         }
         CarClass carClass = carClassService.getByName(carDto.getCarClassName());
-        car.setCarClass(carClass);
+        car.getModel().setCarClass(carClass);
         return car;
     }
 }
