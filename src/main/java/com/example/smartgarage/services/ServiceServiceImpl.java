@@ -39,18 +39,18 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public ServiceModel create(ServiceModel serviceModel, User user) {
+    public ServiceModel create(ServiceModel service, User user) {
         authorizationHelper.checkIfCurrentUserIsEmployee(user);
-        return serviceRepository.create(serviceModel);
+        return serviceRepository.create(service);
     }
 
     @Override
     public void addPartsToService(int serviceId, List<Part> parts, User user) {
         authorizationHelper.checkIfCurrentUserIsEmployee(user);
-        ServiceModel serviceModel = serviceRepository.getById(serviceId);
-        parts.forEach(part -> serviceModel.getParts().add(part));
-        serviceModel.setTotal(calculateTotalPrice(serviceModel));
-        serviceRepository.update(serviceModel);
+        ServiceModel service = serviceRepository.getById(serviceId);
+        parts.forEach(part -> service.getParts().add(part));
+        service.setTotal(calculateTotalPrice(service));
+        serviceRepository.update(service);
     }
 
     @Override

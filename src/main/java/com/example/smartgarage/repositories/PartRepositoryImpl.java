@@ -46,6 +46,7 @@ public class PartRepositoryImpl implements PartRepository {
         }
     }
 
+    @Override
     public List<Part> getAll(List<Part> excludedParts) {
         List<Integer> excludedIds = excludedParts.stream()
                 .map(Part::getId)

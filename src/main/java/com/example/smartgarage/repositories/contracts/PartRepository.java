@@ -10,5 +10,7 @@ public interface PartRepository {
 
     List<Part> getAll();
 
+    List<Part> getAll(List<Part> excludedParts);
+
     List<Part> getListOfParts(List<Integer> partsIds);
 }
