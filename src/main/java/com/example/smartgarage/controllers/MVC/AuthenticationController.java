@@ -72,35 +72,4 @@ public class AuthenticationController {
         session.removeAttribute("currentUser");
         return "redirect:/";
     }
-
-    @GetMapping("/register")
-    public String showRegisterPage(Model model) {
-        model.addAttribute("register", new RegisterDto());
-        return "register";
-    }
-
-    @PostMapping("/register")
-    public String handleRegister(@Valid @ModelAttribute("register") RegisterDto register,
-                                 BindingResult bindingResult,
-                                 HttpSession session) {
-        if (bindingResult.hasErrors()) {
-            return "register";
-        }
-
-//        if (!register.getPassword().equals(register.getPasswordConfirm())) {
-//            bindingResult.rejectValue("confirmPassword",
-//                    "password_error",
-//                    "Password confirmation should match password");
-//            return "register";
-//        }
-
-        try {
-            User user = userMapper.registerFromDto(register);
-            userService.create(user);
-            return "redirect:/auth/login";
-        } catch (EntityDuplicateException e) {
-            bindingResult.rejectValue("username", "username_error", e.getMessage());
-            return "register";
-        }
-    }
 }

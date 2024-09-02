@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
+import java.util.Base64;
+
 @Component
 public class AuthenticationHelper {
 
@@ -27,9 +29,18 @@ public class AuthenticationHelper {
             throw new AuthorizationException(INVALID_AUTHENTICATION_ERROR);
         }
 
-        String userInfo = headers.getFirst(AUTHORIZATION_HEADER_NAME);
-        String username = getUsername(userInfo);
-        String password = getPassword(userInfo);
+        String input;
+
+        if (headers.getFirst(AUTHORIZATION_HEADER_NAME).startsWith("Basic ")) {
+            String userInfo = headers.getFirst(AUTHORIZATION_HEADER_NAME).substring(6);
+            Base64.Decoder decoder = Base64.getDecoder();
+            String[] decodedUserInfo = new String(decoder.decode(userInfo)).split(":");
+            input = String.join(" ", decodedUserInfo);
+        } else {
+            input = headers.getFirst(AUTHORIZATION_HEADER_NAME);
+        }
+        String username = getUsername(input);
+        String password = getPassword(input);
         return verifyAuthentication(username, password);
     }
 

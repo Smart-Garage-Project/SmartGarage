@@ -8,7 +8,7 @@ public interface PartService {
 
     List<Part> getParts();
 
-    Part getById(int id);
+    List<Part> getExcludedParts(List<Integer> excludedPartIds);
 
-    List<Part> getListOfParts(List<Integer> partsIds);
+    Part getById(int id);
 }

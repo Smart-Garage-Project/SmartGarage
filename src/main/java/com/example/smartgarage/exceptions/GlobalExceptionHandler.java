@@ -13,6 +13,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleAuthorizationException(AuthorizationException ex, WebRequest request) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
+    @ExceptionHandler(ArgumentsMismatchException.class)
+    public ResponseEntity<String> handleArgumentsMismatchException(ArgumentsMismatchException ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(EntityDuplicateException.class)
     public ResponseEntity<String> handleEntityDuplicateException(EntityDuplicateException ex, WebRequest request) {

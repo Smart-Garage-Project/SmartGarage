@@ -1,5 +1,6 @@
 package com.example.smartgarage.services;
 
+import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.models.Part;
 import com.example.smartgarage.repositories.contracts.PartRepository;
 import com.example.smartgarage.services.contracts.PartService;
@@ -20,17 +21,17 @@ public class PartServiceImpl implements PartService {
 
     @Override
     public List<Part> getParts() {
-        return partRepository.getAll();
+        return partRepository.findAll();
     }
+
+    @Override
+    public List<Part> getExcludedParts(List<Integer> excludedPartIds) {
+        return partRepository.findAllExcluded(excludedPartIds);
+    }
+
 
     @Override
     public Part getById(int id) {
-        return partRepository.getById(id);
+        return partRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Part", id));
     }
-
-    @Override
-    public List<Part> getListOfParts(List<Integer> partsIds) {
-        return partRepository.getListOfParts(partsIds);
-    }
-
 }

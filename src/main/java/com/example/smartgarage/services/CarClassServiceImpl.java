@@ -1,5 +1,6 @@
 package com.example.smartgarage.services;
 
+import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.models.CarClass;
 import com.example.smartgarage.repositories.contracts.CarClassRepository;
 import com.example.smartgarage.services.contracts.CarClassService;
@@ -17,6 +18,7 @@ public class CarClassServiceImpl implements CarClassService {
 
     @Override
     public CarClass getByName(String name) {
-        return carClassRepository.getByName(name);
+        return carClassRepository.findByName(name)
+                .orElseThrow(() -> new EntityNotFoundException("Car class", "name", name));
     }
 }

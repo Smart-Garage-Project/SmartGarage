@@ -1,5 +1,6 @@
 package com.example.smartgarage.services;
 
+import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.helpers.AuthorizationHelper;
 import com.example.smartgarage.models.Part;
 import com.example.smartgarage.models.ServiceModel;
@@ -30,27 +31,27 @@ public class ServiceServiceImpl implements ServiceService {
 
     @Override
     public ServiceModel getById(int id) {
-        return serviceRepository.getById(id);
+        return serviceRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Service", id));
     }
 
     @Override
-    public List<ServiceModel> getByCarId(int id) {
-        return serviceRepository.getByCarId(id);
+    public List<ServiceModel> getByCarId(int carId) {
+        return serviceRepository.findCarServices(carId);
     }
 
     @Override
     public ServiceModel create(ServiceModel service, User user) {
         authorizationHelper.checkIfCurrentUserIsEmployee(user);
-        return serviceRepository.create(service);
+        return serviceRepository.save(service);
     }
 
     @Override
     public void addPartsToService(int serviceId, List<Part> parts, User user) {
         authorizationHelper.checkIfCurrentUserIsEmployee(user);
-        ServiceModel service = serviceRepository.getById(serviceId);
+        ServiceModel service = getById(serviceId);
         parts.forEach(part -> service.getParts().add(part));
         service.setTotal(calculateTotalPrice(service));
-        serviceRepository.update(service);
+        serviceRepository.save(service);
     }
 
     @Override

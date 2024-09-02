@@ -1,8 +1,11 @@
 package com.example.smartgarage.repositories.contracts;
 
 import com.example.smartgarage.models.Model;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ModelRepository {
-    Model getByName(String name);
-    Model create(Model model);
+import java.util.Optional;
+
+public interface ModelRepository extends JpaRepository<Model, Integer> {
+
+    Optional<Model> findByName(String name);
 }

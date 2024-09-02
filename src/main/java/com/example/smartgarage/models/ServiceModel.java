@@ -24,6 +24,10 @@ public class ServiceModel {
     @JoinColumn(name = "car_id")
     private Car car;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Column(name = "total")
     private double total;
 

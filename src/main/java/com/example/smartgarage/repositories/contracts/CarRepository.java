@@ -1,18 +1,16 @@
 package com.example.smartgarage.repositories.contracts;
 
 import com.example.smartgarage.models.Car;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface CarRepository {
+public interface CarRepository extends JpaRepository<Car, Integer> {
 
-    List<Car> getUserCars(int userId);
+    @Query("SELECT c FROM Car AS c WHERE c.owner.id = :userId")
+    List<Car> findUserCars(@Param("userId") int userId);
 
-    Car create(Car car);
-
-    Car update(int id, Car car);
-
-    List<Car> getCars();
-
-    Car getById(int id);
 }
+

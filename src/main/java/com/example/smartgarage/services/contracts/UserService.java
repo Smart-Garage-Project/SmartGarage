@@ -1,5 +1,6 @@
 package com.example.smartgarage.services.contracts;
 
+import com.example.smartgarage.models.UpdateUserDto;
 import com.example.smartgarage.models.User;
 
 import java.util.List;
@@ -12,9 +13,9 @@ public interface UserService {
 
     User getByUsername(String username);
 
-    User create(User user);
+    User create(User user, User currentUser);
 
-    User update(int id, User updatedUser, User user);
+    User update(int id, UpdateUserDto updateUserDto, User currentUser);
 
     void delete(int id, User user);
 }

@@ -3,6 +3,7 @@ package com.example.smartgarage.controllers.Rest;
 import com.example.smartgarage.helpers.AuthenticationHelper;
 import com.example.smartgarage.helpers.UserMapper;
 import com.example.smartgarage.models.RegisterDto;
+import com.example.smartgarage.models.UpdateUserDto;
 import com.example.smartgarage.models.User;
 import com.example.smartgarage.services.contracts.UserService;
 import jakarta.validation.Valid;
@@ -42,16 +43,16 @@ public class RestUserController {
     }
 
     @PostMapping("/register")
-    public User create(@Valid @RequestBody RegisterDto registerDto) {
+    public User create(@RequestHeader HttpHeaders headers, @Valid @RequestBody RegisterDto registerDto) {
+        User currentUser = authenticationHelper.tryGetUser(headers);
         User user = userMapper.registerFromDto(registerDto);
-        return userService.create(user);
+        return userService.create(user, currentUser);
     }
 
     @PutMapping("/{id}")
-    public User update(@RequestHeader HttpHeaders headers, @PathVariable int id, @Valid @RequestBody RegisterDto registerDto) {
+    public User update(@RequestHeader HttpHeaders headers, @PathVariable int id, @Valid @RequestBody UpdateUserDto updateUserDto) {
         User user = authenticationHelper.tryGetUser(headers);
-        User updatedUser = userMapper.registerFromDto(registerDto);
-        return userService.update(id, updatedUser, user);
+        return userService.update(id, updateUserDto, user);
     }
 
     @DeleteMapping("/{id}")

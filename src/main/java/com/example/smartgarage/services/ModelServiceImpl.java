@@ -1,5 +1,6 @@
 package com.example.smartgarage.services;
 
+import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.helpers.AuthorizationHelper;
 import com.example.smartgarage.models.Model;
 import com.example.smartgarage.models.User;
@@ -10,22 +11,21 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ModelServiceImpl implements ModelService {
+
     private final ModelRepository modelRepository;
-    private final AuthorizationHelper authorizationHelper;
 
     @Autowired
-    public ModelServiceImpl(ModelRepository modelRepository, AuthorizationHelper authorizationHelper) {
+    public ModelServiceImpl(ModelRepository modelRepository) {
         this.modelRepository = modelRepository;
-        this.authorizationHelper = authorizationHelper;
     }
 
     @Override
     public Model getByName(String name) {
-        return modelRepository.getByName(name);
+        return modelRepository.findByName(name).orElseThrow(() -> new EntityNotFoundException("Model", "name", name));
     }
 
     @Override
     public Model create(Model model) {
-        return modelRepository.create(model);
+        return modelRepository.save(model);
     }
 }
