@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class PartRepositoryImpl implements PartRepository {
@@ -38,6 +39,21 @@ public class PartRepositoryImpl implements PartRepository {
     public List<Part> getAll() {
         try (Session session = sessionFactory.openSession()) {
             List<Part> list = session.createQuery("from Part", Part.class).list();
+            if (list.isEmpty()) {
+                throw new EntityNotFoundException("Part", 0);
+            }
+            return list;
+        }
+    }
+
+    public List<Part> getAll(List<Part> excludedParts) {
+        List<Integer> excludedIds = excludedParts.stream()
+                .map(Part::getId)
+                .collect(Collectors.toList());
+        try (Session session = sessionFactory.openSession()) {
+            Query<Part> query = session.createQuery("from Part where id not in :ids", Part.class);
+            query.setParameterList("ids", excludedIds);
+            List<Part> list = query.list();
             if (list.isEmpty()) {
                 throw new EntityNotFoundException("Part", 0);
             }
