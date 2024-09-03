@@ -29,18 +29,14 @@ public class AuthenticationHelper {
             throw new AuthorizationException(INVALID_AUTHENTICATION_ERROR);
         }
 
-        String input;
+        String userInfo = headers.getFirst(AUTHORIZATION_HEADER_NAME).substring(6);
+        Base64.Decoder decoder = Base64.getDecoder();
+        String[] decodedUserInfo = new String(decoder.decode(userInfo)).split(":");
+        String input = String.join(" ", decodedUserInfo);
 
-        if (headers.getFirst(AUTHORIZATION_HEADER_NAME).startsWith("Basic ")) {
-            String userInfo = headers.getFirst(AUTHORIZATION_HEADER_NAME).substring(6);
-            Base64.Decoder decoder = Base64.getDecoder();
-            String[] decodedUserInfo = new String(decoder.decode(userInfo)).split(":");
-            input = String.join(" ", decodedUserInfo);
-        } else {
-            input = headers.getFirst(AUTHORIZATION_HEADER_NAME);
-        }
         String username = getUsername(input);
         String password = getPassword(input);
+
         return verifyAuthentication(username, password);
     }
 
