@@ -25,8 +25,8 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<Car> getCars(User user) {
-        authorizationHelper.checkIfCurrentUserIsEmployee(user);
+    public List<Car> getUserCars(int id, User user) {
+        authorizationHelper.checkIfCurrentUserIsEmployeeOrIsSameAsTargetUser(user, id);
         return carRepository.findUserCars(user.getId());
     }
 

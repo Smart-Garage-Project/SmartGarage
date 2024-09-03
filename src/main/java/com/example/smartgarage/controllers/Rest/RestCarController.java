@@ -35,12 +35,6 @@ public class RestCarController {
         this.carMapper = carMapper;
     }
 
-    @GetMapping
-    public List<Car> getCars(@RequestHeader HttpHeaders headers) {
-        User user = authenticationHelper.tryGetUser(headers);
-        return carService.getCars(user);
-    }
-
     @GetMapping("/{id}")
     public Car getCarById(@RequestHeader HttpHeaders headers, @PathVariable int id) {
         User user = authenticationHelper.tryGetUser(headers);

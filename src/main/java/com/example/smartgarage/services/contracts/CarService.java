@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CarService {
 
-    List<Car> getCars(User user);
+    List<Car> getUserCars(int id, User user);
 
     Car getById(int id, User user);
 

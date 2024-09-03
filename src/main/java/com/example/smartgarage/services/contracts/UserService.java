@@ -9,6 +9,8 @@ public interface UserService {
 
     List<User> getUsers(User currentUser);
 
+    List<User> getUsersFiltered(User currentUser, String username, String email, String phoneNumber);
+
     User getById(int id, User currentUser);
 
     User getByUsername(String username);

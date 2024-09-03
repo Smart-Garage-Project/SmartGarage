@@ -9,7 +9,7 @@ CREATE TABLE `brands` (
                           `id` int(11) NOT NULL AUTO_INCREMENT,
                           `name` varchar(50) NOT NULL,
                           PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -19,7 +19,8 @@ CREATE TABLE `brands` (
 LOCK TABLES `brands` WRITE;
 /*!40000 ALTER TABLE `brands` DISABLE KEYS */;
 INSERT INTO `brands` VALUES
-    (1,'Ferrari');
+                         (2,'Mercedes-Benz'),
+                         (4,'Ineos Grenadier');
 /*!40000 ALTER TABLE `brands` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -83,11 +84,11 @@ CREATE TABLE `cars` (
 LOCK TABLES `cars` WRITE;
 /*!40000 ALTER TABLE `cars` DISABLE KEYS */;
 INSERT INTO `cars` VALUES
-                       (1,'CB 4881 AM','ZFF79ALA0K0234567',1,1,2019,2),
-                       (2,'CB 8202 BB','ZFF92LLA1L0234568',1,1,2020,5),
-                       (3,'PB 8123 CC','ZFF87LAM2M0234569',1,1,2021,4),
-                       (4,'CA 2450 KH','ZFF89LLA8J0234570',1,1,2018,2),
-                       (5,'PB 9090 EX','ZFF94LAM0N0234571',1,1,2022,5);
+                       (1,'CB 4881 AM','ZFF79ALA0K0234567',2,1,2019,2),
+                       (2,'CB 8202 BB','ZFF92LLA1L0234568',2,2,2020,5),
+                       (3,'PB 8123 CC','ZFF87LAM2M0234569',2,3,2021,4),
+                       (4,'CA 2450 KH','ZFF89LLA8J0234570',2,4,2018,2),
+                       (5,'PB 9090 EX','ZFF94LAM0N0234571',4,5,2022,5);
 /*!40000 ALTER TABLE `cars` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -108,7 +109,7 @@ CREATE TABLE `models` (
                           KEY `models_car_classes_id_fk` (`class_id`),
                           CONSTRAINT `models_brands_id_fk` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`),
                           CONSTRAINT `models_car_classes_id_fk` FOREIGN KEY (`class_id`) REFERENCES `car_classes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,11 +119,14 @@ CREATE TABLE `models` (
 LOCK TABLES `models` WRITE;
 /*!40000 ALTER TABLE `models` DISABLE KEYS */;
 INSERT INTO `models` VALUES
-                         (1,'488 GTB',1,4),
-                         (2,'F8 Tributo',1,4),
-                         (3,'812 Superfast',1,4),
-                         (4,'Ferrari Portofino',1,4),
-                         (5,'SF90 Stradale',1,4);
+                         (1,'A Class',2,1),
+                         (2,'E Class',2,2),
+                         (3,'S Class',2,3),
+                         (4,'AMG GT',2,4),
+                         (5,'Arcane Works',4,2),
+                         (6,'G Class',2,3),
+                         (7,'Quartermaster',4,3),
+                         (8,'Utility Wagon',4,2);
 /*!40000 ALTER TABLE `models` ENABLE KEYS */;
 UNLOCK TABLES;
 
