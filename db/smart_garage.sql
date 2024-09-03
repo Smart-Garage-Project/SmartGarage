@@ -1,4 +1,38 @@
 --
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+                         `id` int(11) NOT NULL AUTO_INCREMENT,
+                         `username` varchar(20) NOT NULL,
+                         `password` varchar(20) NOT NULL,
+                         `email` varchar(50) NOT NULL,
+                         `phone_number` varchar(13) NOT NULL,
+                         `is_employee` tinyint(1) NOT NULL,
+                         PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES
+                        (1,'IPopov','Ivan123!@#','ivan.popov@example.com','+359881234567',1),
+                        (2,'MIvanova','MariaPass!98','maria.ivanova@example.com','+359892345678',0),
+                        (3,'GPetrov','GeoPetro@2024','georgi.petrov@example.com','+359873456789',1),
+                        (4,'VStoyanova','Vessy@1234','vesela.stoyanova@example.com','+359884567890',0),
+                        (5,'NDimitrov','NikoPass!567','nikolay.dimitrov@example.com','+359895678901',0),
+                        (6,'PAsenov','m^zl400S','smart_garage_dp_user@abv.bg','+359881242513',0);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `brands`
 --
 
@@ -53,6 +87,44 @@ INSERT INTO `car_classes` VALUES
 UNLOCK TABLES;
 
 --
+-- Table structure for table `models`
+--
+
+DROP TABLE IF EXISTS `models`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `models` (
+                          `id` int(11) NOT NULL AUTO_INCREMENT,
+                          `name` varchar(50) NOT NULL,
+                          `brand_id` int(11) NOT NULL,
+                          `class_id` int(11) NOT NULL,
+                          PRIMARY KEY (`id`),
+                          KEY `models_brands_id_fk` (`brand_id`),
+                          KEY `models_car_classes_id_fk` (`class_id`),
+                          CONSTRAINT `models_brands_id_fk` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`),
+                          CONSTRAINT `models_car_classes_id_fk` FOREIGN KEY (`class_id`) REFERENCES `car_classes` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `models`
+--
+
+LOCK TABLES `models` WRITE;
+/*!40000 ALTER TABLE `models` DISABLE KEYS */;
+INSERT INTO `models` VALUES
+                         (1,'A Class',2,1),
+                         (2,'E Class',2,2),
+                         (3,'S Class',2,3),
+                         (4,'AMG GT',2,4),
+                         (5,'Arcane Works',4,2),
+                         (6,'G Class',2,3),
+                         (7,'Quartermaster',4,3),
+                         (8,'Utility Wagon',4,2);
+/*!40000 ALTER TABLE `models` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `cars`
 --
 
@@ -90,44 +162,6 @@ INSERT INTO `cars` VALUES
                        (4,'CA 2450 KH','ZFF89LLA8J0234570',2,4,2018,2),
                        (5,'PB 9090 EX','ZFF94LAM0N0234571',4,5,2022,5);
 /*!40000 ALTER TABLE `cars` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `models`
---
-
-DROP TABLE IF EXISTS `models`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `models` (
-                          `id` int(11) NOT NULL AUTO_INCREMENT,
-                          `name` varchar(50) NOT NULL,
-                          `brand_id` int(11) NOT NULL,
-                          `class_id` int(11) NOT NULL,
-                          PRIMARY KEY (`id`),
-                          KEY `models_brands_id_fk` (`brand_id`),
-                          KEY `models_car_classes_id_fk` (`class_id`),
-                          CONSTRAINT `models_brands_id_fk` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`),
-                          CONSTRAINT `models_car_classes_id_fk` FOREIGN KEY (`class_id`) REFERENCES `car_classes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `models`
---
-
-LOCK TABLES `models` WRITE;
-/*!40000 ALTER TABLE `models` DISABLE KEYS */;
-INSERT INTO `models` VALUES
-                         (1,'A Class',2,1),
-                         (2,'E Class',2,2),
-                         (3,'S Class',2,3),
-                         (4,'AMG GT',2,4),
-                         (5,'Arcane Works',4,2),
-                         (6,'G Class',2,3),
-                         (7,'Quartermaster',4,3),
-                         (8,'Utility Wagon',4,2);
-/*!40000 ALTER TABLE `models` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -228,46 +262,3 @@ LOCK TABLES `services_parts` WRITE;
 /*!40000 ALTER TABLE `services_parts` DISABLE KEYS */;
 /*!40000 ALTER TABLE `services_parts` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
-                         `id` int(11) NOT NULL AUTO_INCREMENT,
-                         `username` varchar(20) NOT NULL,
-                         `password` varchar(20) NOT NULL,
-                         `email` varchar(50) NOT NULL,
-                         `phone_number` varchar(13) NOT NULL,
-                         `is_employee` tinyint(1) NOT NULL,
-                         PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES
-                        (1,'IPopov','Ivan123!@#','ivan.popov@example.com','+359881234567',1),
-                        (2,'MIvanova','MariaPass!98','maria.ivanova@example.com','+359892345678',0),
-                        (3,'GPetrov','GeoPetro@2024','georgi.petrov@example.com','+359873456789',1),
-                        (4,'VStoyanova','Vessy@1234','vesela.stoyanova@example.com','+359884567890',0),
-                        (5,'NDimitrov','NikoPass!567','nikolay.dimitrov@example.com','+359895678901',0),
-                        (6,'PAsenov','m^zl400S','smart_garage_dp_user@abv.bg','+359881242513',0);
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
