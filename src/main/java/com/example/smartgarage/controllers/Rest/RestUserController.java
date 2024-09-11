@@ -74,4 +74,9 @@ public class RestUserController {
         User user = authenticationHelper.tryGetUser(headers);
         userService.delete(id, user);
     }
+
+    @PutMapping("/forgotten-password")
+    public void forgottenPassword(@RequestParam String email) {
+        userService.generateNewPassword(email);
+    }
 }

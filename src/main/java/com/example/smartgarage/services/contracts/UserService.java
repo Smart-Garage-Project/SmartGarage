@@ -20,4 +20,6 @@ public interface UserService {
     User update(int id, UpdateUserDto updateUserDto, User currentUser);
 
     void delete(int id, User user);
+
+    void generateNewPassword(String email);
 }

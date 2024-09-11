@@ -4,6 +4,7 @@ import com.example.smartgarage.exceptions.ArgumentsMismatchException;
 import com.example.smartgarage.exceptions.EntityDuplicateException;
 import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.helpers.AuthorizationHelper;
+import com.example.smartgarage.helpers.PasswordGenerator;
 import com.example.smartgarage.models.UpdateUserDto;
 import com.example.smartgarage.models.User;
 import com.example.smartgarage.repositories.contracts.UserRepository;
@@ -22,11 +23,14 @@ public class UserServiceImpl implements UserService {
 
     private final EmailService emailService;
 
+    private final PasswordGenerator passwordGenerator;
+
     @Autowired
-    public UserServiceImpl(AuthorizationHelper authorizationHelper, UserRepository userRepository, EmailService emailService) {
+    public UserServiceImpl(AuthorizationHelper authorizationHelper, UserRepository userRepository, EmailService emailService, PasswordGenerator passwordGenerator) {
         this.authorizationHelper = authorizationHelper;
         this.userRepository = userRepository;
         this.emailService = emailService;
+        this.passwordGenerator = passwordGenerator;
     }
 
     @Override
@@ -98,5 +102,17 @@ public class UserServiceImpl implements UserService {
     public void delete(int id, User user) {
         authorizationHelper.checkIfCurrentUserIsEmployee(user);
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public void generateNewPassword(String email) {
+
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User", "email", email));
+        user.setPassword(passwordGenerator.generatePassword());
+        userRepository.save(user);
+
+        emailService.sendEmail(email, "New Password",
+                String.format("Your new password is: %s\nRemember to keep your Username and Password secure",
+                        user.getPassword()));
     }
 }
