@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}" href="../static/css/home.css"/>
+    <link rel="icon" type="image/x-icon" th:href="@{/images/logo.jpg}" href="../static/images/logo.jpg"/>
+</head>
+<body>
+<header>
+    <div th:insert="~{fragments :: tab-bar}"></div>
+</header>
+
+<div class="hero">
+    <h1>Welcome to Silver Star</h1>
+</div>
+
+<div class="content">
+    <section class="section">
+        <h2>Our Services</h2>
+        <p>Details about services...</p>
+    </section>
+    <section class="section">
+        <h2>About Us</h2>
+        <p>Information about the company...</p>
+    </section>
+</div>
+
+<footer th:insert="~{fragments :: footer}"></footer>
+</body>
+</html>
