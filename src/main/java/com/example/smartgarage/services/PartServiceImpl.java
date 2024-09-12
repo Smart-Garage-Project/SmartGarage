@@ -5,6 +5,8 @@ import com.example.smartgarage.models.Part;
 import com.example.smartgarage.repositories.contracts.PartRepository;
 import com.example.smartgarage.services.contracts.PartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,13 +22,13 @@ public class PartServiceImpl implements PartService {
     }
 
     @Override
-    public List<Part> getParts() {
-        return partRepository.findAll();
+    public Page<Part> getParts(Pageable pageable) {
+        return partRepository.findAllPaged(pageable);
     }
 
     @Override
-    public List<Part> getExcludedParts(List<Integer> excludedPartIds) {
-        return partRepository.findAllExcluded(excludedPartIds);
+    public Page<Part> getExcludedParts(List<Integer> excludedPartIds, Pageable pageable) {
+        return partRepository.findAllExcluded(excludedPartIds, pageable);
     }
 
 

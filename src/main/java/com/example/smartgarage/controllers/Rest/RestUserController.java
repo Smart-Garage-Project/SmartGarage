@@ -10,6 +10,9 @@ import com.example.smartgarage.services.contracts.CarService;
 import com.example.smartgarage.services.contracts.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,18 +39,22 @@ public class RestUserController {
     }
 
     @GetMapping
-    public List<User> getUsers(@RequestHeader HttpHeaders headers,
+    public Page<User> getUsers(@RequestHeader HttpHeaders headers,
                                @RequestParam(required = false) String username,
                                @RequestParam(required = false) String email,
-                               @RequestParam(required = false) String phoneNumber) {
+                               @RequestParam(required = false) String phoneNumber,
+                               @RequestParam(defaultValue = "0") int page){
         User user = authenticationHelper.tryGetUser(headers);
-        return userService.getUsersFiltered(user, username, email, phoneNumber);
+        Pageable pageable = PageRequest.of(page, 10);
+        return userService.getUsersFiltered(user, username, email, phoneNumber, pageable);
     }
 
     @GetMapping("/{id}/cars")
-    public List<Car> getCars(@RequestHeader HttpHeaders headers, @PathVariable int id) {
+    public Page<Car> getCars(@RequestHeader HttpHeaders headers, @PathVariable int id,
+                             @RequestParam(defaultValue = "0") int page) {
         User currentUser = authenticationHelper.tryGetUser(headers);
-        return carService.getUserCars(id, currentUser);
+        Pageable pageable = PageRequest.of(page, 10);
+        return carService.getUserCars(id, currentUser, pageable);
     }
 
     @GetMapping("/{id}")

@@ -1,6 +1,8 @@
 package com.example.smartgarage.repositories.contracts;
 
 import com.example.smartgarage.models.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,8 +26,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             AND (:email IS NULL OR u.email LIKE %:email%)
             AND (:phoneNumber IS NULL OR u.phoneNumber LIKE %:phoneNumber%)
             """)
-    List<User> findUsersByCriteria(@Param("username") String username,
+    Page<User> findUsersByCriteria(@Param("username") String username,
                                    @Param("email") String email,
-                                   @Param("phoneNumber") String phoneNumber);
+                                   @Param("phoneNumber") String phoneNumber,
+                                   Pageable pageable);
 
 }

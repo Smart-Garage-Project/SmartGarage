@@ -6,9 +6,10 @@ import com.example.smartgarage.models.Part;
 import com.example.smartgarage.models.ServiceModel;
 import com.example.smartgarage.models.User;
 import com.example.smartgarage.repositories.contracts.ServiceRepository;
-import com.example.smartgarage.services.contracts.PartService;
 import com.example.smartgarage.services.contracts.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,14 +19,11 @@ public class ServiceServiceImpl implements ServiceService {
 
     private final ServiceRepository serviceRepository;
 
-    private final PartService partService;
-
     private final AuthorizationHelper authorizationHelper;
 
     @Autowired
-    public ServiceServiceImpl(ServiceRepository serviceRepository, PartService partService, AuthorizationHelper authorizationHelper) {
+    public ServiceServiceImpl(ServiceRepository serviceRepository, AuthorizationHelper authorizationHelper) {
         this.serviceRepository = serviceRepository;
-        this.partService = partService;
         this.authorizationHelper = authorizationHelper;
     }
 
@@ -35,8 +33,8 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public List<ServiceModel> getByCarId(int carId) {
-        return serviceRepository.findCarServices(carId);
+    public Page<ServiceModel> getByCarId(int carId, Pageable pageable) {
+        return serviceRepository.findCarServices(carId, pageable);
     }
 
     @Override

@@ -10,6 +10,8 @@ import com.example.smartgarage.models.User;
 import com.example.smartgarage.repositories.contracts.UserRepository;
 import com.example.smartgarage.services.contracts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,9 +42,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsersFiltered(User currentUser, String username, String email, String phoneNumber) {
+    public Page<User> getUsersFiltered(User currentUser, String username, String email, String phoneNumber, Pageable pageable) {
         authorizationHelper.checkIfCurrentUserIsEmployee(currentUser);
-        return userRepository.findUsersByCriteria(username, email, phoneNumber);
+        return userRepository.findUsersByCriteria(username, email, phoneNumber, pageable);
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.example.smartgarage.services.contracts;
 
 import com.example.smartgarage.models.UpdateUserDto;
 import com.example.smartgarage.models.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -9,7 +11,7 @@ public interface UserService {
 
     List<User> getUsers(User currentUser);
 
-    List<User> getUsersFiltered(User currentUser, String username, String email, String phoneNumber);
+    Page<User> getUsersFiltered(User currentUser, String username, String email, String phoneNumber, Pageable pageable);
 
     User getById(int id, User currentUser);
 

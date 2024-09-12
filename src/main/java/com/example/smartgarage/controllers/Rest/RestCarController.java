@@ -10,10 +10,11 @@ import com.example.smartgarage.services.contracts.CarService;
 import com.example.smartgarage.services.contracts.ServiceService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/cars")
@@ -56,8 +57,10 @@ public class RestCarController {
     }
 
     @GetMapping("/{id}/services")
-    public List<ServiceModel> getCarServices(@RequestHeader HttpHeaders headers, @PathVariable int id) {
+    public Page<ServiceModel> getCarServices(@RequestHeader HttpHeaders headers, @PathVariable int id,
+                                             @RequestParam(defaultValue = "0") int page) {
         User user = authenticationHelper.tryGetUser(headers);
-        return serviceService.getByCarId(id);
+        Pageable pageable = PageRequest.of(page, 10);
+        return serviceService.getByCarId(id, pageable);
     }
 }

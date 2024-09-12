@@ -9,6 +9,9 @@ import com.example.smartgarage.models.User;
 import com.example.smartgarage.services.contracts.PartService;
 import com.example.smartgarage.services.contracts.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +31,8 @@ public class RestServiceController {
     private final ServiceModelMapper serviceModelMapper;
 
     @Autowired
-    public RestServiceController(ServiceService serviceService, PartService partService, AuthenticationHelper authenticationHelper, ServiceModelMapper serviceModelMapper) {
+    public RestServiceController(ServiceService serviceService, PartService partService,
+                                 AuthenticationHelper authenticationHelper, ServiceModelMapper serviceModelMapper) {
         this.serviceService = serviceService;
         this.partService = partService;
         this.authenticationHelper = authenticationHelper;
@@ -49,10 +53,20 @@ public class RestServiceController {
     }
 
     @PostMapping("/{id}/parts")
-    public ServiceModel addPartsToService(@RequestHeader HttpHeaders headers, @PathVariable int id, @RequestBody List<Integer> partIds) {
+    public ServiceModel addPartsToService(@RequestHeader HttpHeaders headers, @PathVariable int id,
+                                          @RequestBody List<Integer> partIds) {
         User user = authenticationHelper.tryGetUser(headers);
         List<Part> parts = partIds.stream().map(partService::getById).collect(Collectors.toList());
         serviceService.addPartsToService(id, parts, user);
         return serviceService.getById(id);
+    }
+
+    @GetMapping("/{id}/parts-excluded")
+    public Page<Part> getExcludedParts(@RequestHeader HttpHeaders headers, @PathVariable int id,
+                                       @RequestParam(defaultValue = "0") int page) {
+        ServiceModel serviceModel = serviceService.getById(id);
+        Pageable pageable = PageRequest.of(page, 10);
+        List<Integer> excludedPartIds = serviceModel.getParts().stream().map(Part::getId).toList();
+        return partService.getExcludedParts(excludedPartIds, pageable);
     }
 }
