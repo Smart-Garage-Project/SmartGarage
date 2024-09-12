@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Fragments</title>
+    <link th:fragment="tab-icon" rel="icon" type="image/x-icon" th:href="@{/images/logo.jpg}" href="../static/images/logo.jpg"/>
 </head>
 <body>
 <div th:fragment="tab-bar">
     <nav>
         <ul>
             <li><a th:href="@{/}">Home</a></li>
-            <li><a th:href="@{/services}">What we offer</a></li>
+            <li><a th:href="@{/parts}">What we offer</a></li>
             <li><a th:href="@{/about}">About</a></li>
             <li><a th:if="${isAuthenticated && session.isEmployee}" th:href="@{/users/employee}">Employee Panel</a></li>
             <li><a th:if="${isAuthenticated && !session.isEmployee}" th:href="@{/users/{id}/view(id=${currentUser.id})}">Client Panel</a></li>

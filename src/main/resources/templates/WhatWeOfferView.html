@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>What We Offer</title>
+    <link rel="stylesheet" th:href="@{/css/WhatWeOffer.css}" href="../static/css/WhatWeOffer.css"/>
+    <link th:insert="~{fragments :: tab-icon}">
+</head>
+<body>
+<header>
+    <div th:insert="~{fragments :: tab-bar}"></div>
+</header>
+
+<div class="content">
+    <h1>Our Parts</h1>
+    <div th:each="part : ${partsPage.content}">
+        <section class="section">
+            <h2 th:text="${part.name}">Part Name</h2>
+            <p>Starts from <span th:text="${part.price} + ' BGN'">Price</span></p>
+        </section>
+    </div>
+    <div class="pagination">
+        <a th:if="${partsPage.hasPrevious()}" th:href="@{/parts(page=${partsPage.number - 1})}">Previous</a>
+        <span th:text="${partsPage.number + 1}">1</span> / <span th:text="${partsPage.totalPages}">1</span>
+        <a th:if="${partsPage.hasNext()}" th:href="@{/parts(page=${partsPage.number + 1})}">Next</a>
+    </div>
+</div>
+
+<footer th:insert="~{fragments :: footer}"></footer>
+</body>
+</html>

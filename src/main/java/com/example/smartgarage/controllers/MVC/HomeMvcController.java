@@ -31,7 +31,6 @@ public class HomeMvcController {
             User user = authenticationHelper.tryGetCurrentUser(session);
             model.addAttribute("currentUser", user);
         } catch (AuthorizationException e) {
-            model.addAttribute("isAuthenticated", false);
             return "HomeView";
         }
         return "HomeView";
