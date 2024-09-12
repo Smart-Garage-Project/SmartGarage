@@ -59,6 +59,7 @@ public class AuthenticationController {
         try {
             User user = authenticationHelper.verifyAuthentication(dto.getUsername(), dto.getPassword());
             session.setAttribute("currentUser", dto.getUsername());
+            session.setAttribute("isEmployee", user.isEmployee());
             return "redirect:/";
         } catch (AuthorizationException e) {
             bindingResult.rejectValue("username", "auth_error", e.getMessage());
