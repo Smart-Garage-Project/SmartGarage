@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>About Us</title>
+    <link rel="stylesheet" th:href="@{/css/about.css}" href="../static/css/about.css"/>
+    <link th:insert="~{fragments :: tab-icon}">
+</head>
+<body>
+<header>
+    <div th:insert="~{fragments :: tab-bar}"></div>
+</header>
+<div class="about-section">
+    <h1>About SmartGarage</h1>
+    <p>Welcome to SmartGarage, your trusted partner in managing garage operations efficiently. We provide a seamless experience for both garage owners and customers through our comprehensive solutions.</p>
+    <h2>Our Services</h2>
+    <ul>
+        <li>Real-time exchange rate integration</li>
+        <li>Employee management</li>
+        <li>Customer relationship management</li>
+        <li>Inventory tracking and management</li>
+        <li>Automated billing and invoicing</li>
+    </ul>
+    <h2>Our Functionality</h2>
+    <p>At SmartGarage, we offer the following functionalities:</p>
+    <ul>
+        <li>Car service scheduling and management</li>
+        <li>Vehicle maintenance tracking</li>
+        <li>Parts and supplies inventory management</li>
+        <li>Customer appointment booking</li>
+        <li>Service history and reporting</li>
+    </ul>
+    <h2>Contact Us</h2>
+    <p>If you have any questions or need further information, feel free to contact us at <a href="mailto:support@smartgarage.com">support@smartgarage.com</a>.</p>
+</div>
+<footer th:insert="~{fragments :: footer}"></footer>
+</body>
+</html>
