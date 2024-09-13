@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Panel</title>
+    <link rel="stylesheet" th:href="@{/css/EmployeePanel.css}" href="../static/css/EmployeePanel.css"/>
+    <link th:insert="~{fragments :: tab-icon}">
+</head>
+<body>
+<header>
+    <div th:insert="~{fragments :: tab-bar}"></div>
+</header>
+
+<div class="employee-panel">
+    <h1>Employee Panel</h1>
+    <div class="button-container">
+        <button class="panel-button" th:onclick="|window.location.href='@{/users/create}'|">New User</button>
+        <button class="panel-button" th:onclick="|window.location.href='@{/cars/create}'|">New Car</button>
+        <button class="panel-button" th:onclick="|window.location.href='@{/services/create}'|">New Service</button>
+    </div>
+</div>
+
+<footer th:insert="~{fragments :: footer}"></footer>
+</body>
+</html>

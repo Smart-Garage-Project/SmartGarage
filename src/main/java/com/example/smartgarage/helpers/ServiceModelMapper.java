@@ -1,5 +1,6 @@
 package com.example.smartgarage.helpers;
 
+import com.example.smartgarage.models.Car;
 import com.example.smartgarage.models.ServiceModel;
 import com.example.smartgarage.models.ServiceModelDto;
 import com.example.smartgarage.models.User;
@@ -19,8 +20,10 @@ public class ServiceModelMapper {
 
     public ServiceModel fromDto(ServiceModelDto serviceModelDto, User user) {
         ServiceModel serviceModel = new ServiceModel();
-        serviceModel.setCar(carService.getById(serviceModelDto.getCarId(), user));
-        serviceModel.setUser(carService.getById(serviceModelDto.getCarId(), user).getOwner());
+        Car car = carService.getByLicensePlate(serviceModelDto.getLicensePlate());
+        serviceModel.setCar(car);
+        serviceModel.setUser(car.getOwner());
+        serviceModel.setLicensePlate(car.getLicensePlate());
         return serviceModel;
     }
 }

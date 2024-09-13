@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Details</title>
+    <link rel="stylesheet" th:href="@{/css/ServiceDetails.css}" href="../static/css/ServiceDetails.css"/>
+    <link th:insert="~{fragments :: tab-icon}">
+</head>
+<body>
+<header>
+    <div th:insert="~{fragments :: tab-bar}"></div>
+</header>
+
+<main>
+    <h1>Service Details</h1>
+    <div>
+        <h2>Car Owner</h2>
+        <p th:text="${service.user.username}"></p>
+    </div>
+    <div>
+        <h2>Car</h2>
+        <p th:text="${car.brand.name} + ' ' + ${car.model.name}"></p>
+    </div>
+    <div>
+        <h2>Service Date</h2>
+        <p th:text="${service.date}"></p>
+    </div>
+    <div>
+        <h2>Parts</h2>
+        <ul>
+            <li th:each="part : ${parts}" th:text="${part.name}"></li>
+        </ul>
+    </div>
+    <div>
+        <h2>Total</h2>
+        <p th:text="'$' + ${service.total}"></p>
+    </div>
+</main>
+
+<footer th:insert="~{fragments :: footer}"></footer>
+</body>
+</html>

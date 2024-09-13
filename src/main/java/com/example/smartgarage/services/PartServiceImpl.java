@@ -22,6 +22,11 @@ public class PartServiceImpl implements PartService {
     }
 
     @Override
+    public List<Part> getAllParts() {
+        return partRepository.findAll();
+    }
+
+    @Override
     public Page<Part> getParts(Pageable pageable) {
         return partRepository.findAllPaged(pageable);
     }

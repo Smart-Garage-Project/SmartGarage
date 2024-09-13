@@ -36,14 +36,25 @@ public class HomeMvcController {
         return "HomeView";
     }
 
+    @GetMapping("/employee-panel")
+    public String showEmployeePanel(Model model, HttpSession session) {
+        try {
+            User user = authenticationHelper.tryGetCurrentUser(session);
+            model.addAttribute("currentUser", user);
+        } catch (AuthorizationException e) {
+            return "EmployeePanelView";
+        }
+        return "EmployeePanelView";
+    }
+
     @GetMapping("/about")
     public String about(Model model, HttpSession session) {
         try {
             User user = authenticationHelper.tryGetCurrentUser(session);
             model.addAttribute("currentUser", user);
         } catch (AuthorizationException e) {
-            return "about";
+            return "AboutView";
         }
-        return "about";
+        return "AboutView";
     }
 }

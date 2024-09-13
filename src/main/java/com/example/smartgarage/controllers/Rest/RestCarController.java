@@ -16,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/api/cars")
 public class RestCarController {
@@ -45,8 +47,7 @@ public class RestCarController {
     @PostMapping
     public Car create(@RequestHeader HttpHeaders headers, @Valid @RequestBody CarDto carDto) {
         User user = authenticationHelper.tryGetUser(headers);
-        Car car = carMapper.fromDto(carDto);
-        return carService.create(car, user);
+        return carService.create(carDto, user);
     }
 
     @PutMapping("/{id}")
@@ -58,9 +59,11 @@ public class RestCarController {
 
     @GetMapping("/{id}/services")
     public Page<ServiceModel> getCarServices(@RequestHeader HttpHeaders headers, @PathVariable int id,
+                                             @RequestParam(required = false) LocalDate fromDate,
+                                                @RequestParam(required = false) LocalDate toDate,
                                              @RequestParam(defaultValue = "0") int page) {
         User user = authenticationHelper.tryGetUser(headers);
         Pageable pageable = PageRequest.of(page, 10);
-        return serviceService.getByCarId(id, pageable);
+        return serviceService.getByCarId(id, fromDate, toDate, pageable);
     }
 }

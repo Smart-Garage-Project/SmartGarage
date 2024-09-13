@@ -1,7 +1,6 @@
 package com.example.smartgarage.controllers.MVC;
 
 import com.example.smartgarage.models.Part;
-import com.example.smartgarage.models.User;
 import com.example.smartgarage.services.contracts.PartService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.data.domain.Page;

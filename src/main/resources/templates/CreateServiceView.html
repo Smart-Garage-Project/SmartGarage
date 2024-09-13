@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Service</title>
+    <link rel="stylesheet" th:href="@{/css/CreateService.css}" href="../static/css/CreateService.css"/>
+    <link th:insert="~{fragments :: tab-icon}">
+</head>
+<body>
+<header>
+    <div th:insert="~{fragments :: tab-bar}"></div>
+</header>
+
+<div class="container">
+    <h1>Create Service</h1>
+    <form th:action="@{/services/create}" th:object="${newService}" method="post">
+        <div>
+            <label for="licensePlate">License Plate:</label>
+            <input type="text" id="licensePlate" th:field="*{licensePlate}" required/>
+            <div th:if="${#fields.hasErrors('licensePlate')}" th:errors="*{licensePlate}" class="error-message"></div>
+        </div>
+        <div>
+            <button type="submit">Create Service</button>
+        </div>
+    </form>
+
+    <div th:if="${serviceCreated}">
+        <h2>Select Parts</h2>
+        <form th:action="@{/services/{id}/edit(id=${newService.id})}" method="post">
+            <div class="scrollable-container">
+                <div th:each="part : ${parts}">
+                    <input type="checkbox" name="partIds" th:value="${part.id}"/>
+                    <label th:text="${part.name}"></label>
+                </div>
+            </div>
+            <div>
+                <button type="submit">Add Parts</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer th:insert="~{fragments :: footer}"></footer>
+</body>
+</html>

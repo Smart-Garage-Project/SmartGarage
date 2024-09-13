@@ -43,20 +43,20 @@ h1 {
     background-color: rgba(255, 255, 255, 0.8);
     border: 1px solid #ddd;
     border-radius: 5px;
-    margin-bottom: 20px;
-    padding: 15px;
+    margin-bottom: 10px;
+    padding: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 100%;
     text-align: center;
 }
 
 .section h2 {
-    font-size: 2em;
-    margin-bottom: 10px;
+    font-size: 1.5em;
+    margin-bottom: 5px;
 }
 
 .section p {
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
 .pagination {

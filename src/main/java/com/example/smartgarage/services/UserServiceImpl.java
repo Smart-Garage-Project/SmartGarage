@@ -5,6 +5,8 @@ import com.example.smartgarage.exceptions.EntityDuplicateException;
 import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.helpers.AuthorizationHelper;
 import com.example.smartgarage.helpers.PasswordGenerator;
+import com.example.smartgarage.helpers.UserMapper;
+import com.example.smartgarage.models.NewUserDto;
 import com.example.smartgarage.models.UpdateUserDto;
 import com.example.smartgarage.models.User;
 import com.example.smartgarage.repositories.contracts.UserRepository;
@@ -19,6 +21,8 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final UserMapper userMapper;
+
     private final AuthorizationHelper authorizationHelper;
 
     private final UserRepository userRepository;
@@ -28,7 +32,8 @@ public class UserServiceImpl implements UserService {
     private final PasswordGenerator passwordGenerator;
 
     @Autowired
-    public UserServiceImpl(AuthorizationHelper authorizationHelper, UserRepository userRepository, EmailService emailService, PasswordGenerator passwordGenerator) {
+    public UserServiceImpl(UserMapper userMapper, AuthorizationHelper authorizationHelper, UserRepository userRepository, EmailService emailService, PasswordGenerator passwordGenerator) {
+        this.userMapper = userMapper;
         this.authorizationHelper = authorizationHelper;
         this.userRepository = userRepository;
         this.emailService = emailService;
@@ -60,26 +65,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User create(User user, User currentUser) {
+    public User create(NewUserDto newUserDto, User currentUser) {
         authorizationHelper.checkIfCurrentUserIsEmployee(currentUser);
 
-        userRepository.findByUsername(user.getUsername()).ifPresent(u -> {
-            throw new EntityDuplicateException("User", "username", user.getUsername());
+        userRepository.findByUsername(newUserDto.getUsername()).ifPresent(u -> {
+            throw new EntityDuplicateException("User", "username", newUserDto.getUsername());
         });
 
-        userRepository.findByEmail(user.getEmail()).ifPresent(u -> {
-            throw new EntityDuplicateException("User", "email", user.getEmail());
+        userRepository.findByEmail(newUserDto.getEmail()).ifPresent(u -> {
+            throw new EntityDuplicateException("User", "email", newUserDto.getEmail());
         });
 
-        userRepository.findByPhoneNumber(user.getPhoneNumber()).ifPresent(u -> {
-            throw new EntityDuplicateException("User", "phone number", user.getPhoneNumber());
+        userRepository.findByPhoneNumber(newUserDto.getPhoneNumber()).ifPresent(u -> {
+            throw new EntityDuplicateException("User", "phone number", newUserDto.getPhoneNumber());
         });
 
-        emailService.sendEmail(user.getEmail(), "Welcome to SmartGarage",
+        User newUser = userMapper.registerFromDto(newUserDto);
+
+        emailService.sendEmail(newUser.getEmail(), "Welcome to SmartGarage",
                 String.format("Your username is: %s\nYour password is: %s\nRemember to keep your Username and Password secure",
-                        user.getUsername(), user.getPassword()));
+                        newUser.getUsername(), newUser.getPassword()));
 
-        return userRepository.save(user);
+        return userRepository.save(newUser);
     }
 
     @Override

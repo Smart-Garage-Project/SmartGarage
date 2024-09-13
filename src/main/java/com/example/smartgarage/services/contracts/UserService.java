@@ -1,5 +1,6 @@
 package com.example.smartgarage.services.contracts;
 
+import com.example.smartgarage.models.NewUserDto;
 import com.example.smartgarage.models.UpdateUserDto;
 import com.example.smartgarage.models.User;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,7 @@ public interface UserService {
 
     User getByUsername(String username);
 
-    User create(User user, User currentUser);
+    User create(NewUserDto newUserDto, User currentUser);
 
     User update(int id, UpdateUserDto updateUserDto, User currentUser);
 

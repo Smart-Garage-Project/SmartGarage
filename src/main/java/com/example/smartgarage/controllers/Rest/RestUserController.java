@@ -3,7 +3,7 @@ package com.example.smartgarage.controllers.Rest;
 import com.example.smartgarage.helpers.AuthenticationHelper;
 import com.example.smartgarage.helpers.UserMapper;
 import com.example.smartgarage.models.Car;
-import com.example.smartgarage.models.RegisterDto;
+import com.example.smartgarage.models.NewUserDto;
 import com.example.smartgarage.models.UpdateUserDto;
 import com.example.smartgarage.models.User;
 import com.example.smartgarage.services.contracts.CarService;
@@ -26,14 +26,11 @@ public class RestUserController {
 
     private final AuthenticationHelper authenticationHelper;
 
-    private final UserMapper userMapper;
-
     @Autowired
-    public RestUserController(UserService userService, CarService carService, AuthenticationHelper authenticationHelper, UserMapper userMapper) {
+    public RestUserController(UserService userService, CarService carService, AuthenticationHelper authenticationHelper) {
         this.userService = userService;
         this.carService = carService;
         this.authenticationHelper = authenticationHelper;
-        this.userMapper = userMapper;
     }
 
     @GetMapping
@@ -62,10 +59,9 @@ public class RestUserController {
     }
 
     @PostMapping("/register")
-    public User create(@RequestHeader HttpHeaders headers, @Valid @RequestBody RegisterDto registerDto) {
+    public User create(@RequestHeader HttpHeaders headers, @Valid @RequestBody NewUserDto registerDto) {
         User currentUser = authenticationHelper.tryGetUser(headers);
-        User user = userMapper.registerFromDto(registerDto);
-        return userService.create(user, currentUser);
+        return userService.create(registerDto, currentUser);
     }
 
     @PutMapping("/{id}")

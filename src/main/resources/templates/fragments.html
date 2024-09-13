@@ -12,7 +12,7 @@
             <li><a th:href="@{/}">Home</a></li>
             <li><a th:href="@{/parts}">What we offer</a></li>
             <li><a th:href="@{/about}">About</a></li>
-            <li><a th:if="${isAuthenticated && session.isEmployee}" th:href="@{/users/employee}">Employee Panel</a></li>
+            <li><a th:if="${isAuthenticated && session.isEmployee}" th:href="@{/employee-panel}">Employee Panel</a></li>
             <li><a th:if="${isAuthenticated && !session.isEmployee}" th:href="@{/users/{id}/view(id=${currentUser.id})}">Client Panel</a></li>
             <li><a th:if="${!isAuthenticated}" th:href="@{/auth/login}" href="#">Login</a></li>
             <li><a th:if="${isAuthenticated}" th:href="@{/auth/logout}" href="#">Logout</a></li>

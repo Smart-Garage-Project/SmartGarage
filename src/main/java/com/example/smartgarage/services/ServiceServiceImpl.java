@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -33,8 +34,8 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public Page<ServiceModel> getByCarId(int carId, Pageable pageable) {
-        return serviceRepository.findCarServices(carId, pageable);
+    public Page<ServiceModel> getByCarId(int carId, LocalDate fromDate, LocalDate toDate, Pageable pageable) {
+        return serviceRepository.findCarServices(carId, fromDate, toDate, pageable);
     }
 
     @Override

@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -28,15 +28,18 @@ public class ServiceModel {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "car_license_plate")
+    private String licensePlate;
+
     @Column(name = "total")
     private double total;
 
     @Column(name = "date")
-    private LocalDateTime date;
+    private LocalDate date;
 
     @PrePersist
     protected void onCreate() {
-        this.date = LocalDateTime.now();
+        this.date = LocalDate.now();
     }
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

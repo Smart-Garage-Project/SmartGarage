@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface PartService {
 
+    List<Part> getAllParts();
+
     Page<Part> getParts(Pageable pageable);
 
     Page<Part> getExcludedParts(List<Integer> excludedPartIds, Pageable pageable);

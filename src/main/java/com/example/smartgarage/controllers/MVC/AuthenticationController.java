@@ -1,13 +1,9 @@
 package com.example.smartgarage.controllers.MVC;
 
 import com.example.smartgarage.exceptions.AuthorizationException;
-import com.example.smartgarage.exceptions.EntityDuplicateException;
 import com.example.smartgarage.helpers.AuthenticationHelper;
-import com.example.smartgarage.helpers.UserMapper;
 import com.example.smartgarage.models.LoginDto;
-import com.example.smartgarage.models.RegisterDto;
 import com.example.smartgarage.models.User;
-import com.example.smartgarage.services.contracts.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -22,17 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-    private final UserMapper userMapper;
-
-    private final UserService userService;
-
     private final AuthenticationHelper authenticationHelper;
 
-    public AuthenticationController(UserMapper userMapper,
-                                    UserService userService,
-                                    AuthenticationHelper authenticationHelper) {
-        this.userMapper = userMapper;
-        this.userService = userService;
+    public AuthenticationController(AuthenticationHelper authenticationHelper) {
         this.authenticationHelper = authenticationHelper;
     }
 
@@ -44,8 +32,7 @@ public class AuthenticationController {
     @GetMapping("/login")
     public String showLoginPage(Model model) {
         model.addAttribute("login", new LoginDto());
-
-        return "login";
+        return "LoginView";
     }
 
     @PostMapping("/login")
@@ -53,7 +40,7 @@ public class AuthenticationController {
                               BindingResult bindingResult,
                               HttpSession session) {
         if (bindingResult.hasErrors()) {
-            return "login";
+            return "LoginView";
         }
 
         try {
@@ -64,7 +51,7 @@ public class AuthenticationController {
         } catch (AuthorizationException e) {
             bindingResult.rejectValue("username", "auth_error", e.getMessage());
             bindingResult.rejectValue("password", "auth_error", e.getMessage());
-            return "login";
+            return "LoginView";
         }
     }
 

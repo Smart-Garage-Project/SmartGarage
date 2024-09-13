@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Setter
-public class RegisterDto {
+public class NewUserDto {
 
     @NotEmpty
     @Length(min = 2, max = 20)
@@ -22,8 +22,6 @@ public class RegisterDto {
     @Length(min = 13, max = 13)
     private String phoneNumber;
 
-    public @NotEmpty String getUsername() {
-        return username;
-    }
-
+    @NotEmpty
+    private boolean isEmployee;
 }
