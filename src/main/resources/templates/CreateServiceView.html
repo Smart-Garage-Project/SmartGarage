@@ -29,8 +29,8 @@
         <form th:action="@{/services/{id}/edit(id=${newService.id})}" method="post">
             <div class="scrollable-container">
                 <div th:each="part : ${parts}">
-                    <input type="checkbox" name="partIds" th:value="${part.id}"/>
                     <label th:text="${part.name}"></label>
+                    <input type="checkbox" name="partIds" th:value="${part.id}" class="large-checkbox"/>
                 </div>
             </div>
             <div>

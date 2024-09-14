@@ -29,6 +29,10 @@
             <input type="text" id="phoneNumber" th:field="*{phoneNumber}" required/>
             <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
         </div>
+        <div class="form-group">
+            <label for="isEmployee">Employee:</label>
+            <input type="checkbox" id="isEmployee" th:field="*{employee}" class="large-checkbox"/>
+        </div>
         <div>
             <button type="submit">Create User</button>
         </div>

@@ -15,16 +15,24 @@
     <h1>Create a New Car</h1>
     <form th:action="@{/cars/create}" th:object="${newCar}" method="post">
         <div>
+            <label for="ownerUsername">Owner:</label>
+            <input type="text" id="ownerUsername" th:field="*{ownerUsername}" required/>
+        </div>
+        <div>
+        <label for="vin">VIN:</label>
+        <input type="text" id="vin" th:field="*{vin}" required />
+        </div>
+        <div>
+            <label for="licensePlate">License Plate:</label>
+            <input type="text" id="licensePlate" th:field="*{licensePlate}" required/>
+        </div>
+        <div>
             <label for="brand">Brand:</label>
             <input type="text" id="brand" th:field="*{brandName}" required/>
         </div>
         <div>
             <label for="model">Model:</label>
             <input type="text" id="model" th:field="*{modelName}" required/>
-        </div>
-        <div>
-            <label for="licensePlate">License Plate:</label>
-            <input type="text" id="licensePlate" th:field="*{licensePlate}" required/>
         </div>
         <div>
             <label for="year">Year:</label>

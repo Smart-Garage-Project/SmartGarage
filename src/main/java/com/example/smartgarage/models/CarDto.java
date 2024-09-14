@@ -28,7 +28,4 @@ public class CarDto {
 
     @NotEmpty
     private String modelName;
-
-    @NotEmpty
-    private String carClassName;
 }

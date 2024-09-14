@@ -39,6 +39,7 @@ nav ul li a {
 h1 {
     text-align: center;
     color: #333;
+    font-size: 24px;
 }
 
 form {
@@ -62,6 +63,20 @@ input[type="email"] {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+}
+
+.form-group label {
+    margin-right: 10px;
+}
+
+.large-checkbox {
+    width: 20px;
+    height: 20px;
 }
 
 button[type="submit"] {

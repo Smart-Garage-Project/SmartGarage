@@ -30,7 +30,8 @@ nav ul li a {
 
 .container {
     max-width: 600px;
-    margin: 50px auto;
+    max-height: 600px;
+    margin: 30px auto;
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.8);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -39,6 +40,7 @@ nav ul li a {
 
 h1, h2 {
     text-align: center;
+    font-size: 24px;
 }
 
 form {
@@ -76,11 +78,30 @@ form button:hover {
 }
 
 .scrollable-container {
-    max-height: 300px;
+    max-height: 250px;
     overflow-y: auto;
     border: 1px solid #ccc;
     padding: 10px;
 }
+
+.scrollable-container div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.scrollable-container label {
+    margin: 0;
+    display: inline-block;
+    flex-grow: 1;
+}
+
+.large-checkbox {
+    width: 20px;
+    height: 20px;
+    margin-left: auto;
+}
+
 
 .error {
     color: red;
