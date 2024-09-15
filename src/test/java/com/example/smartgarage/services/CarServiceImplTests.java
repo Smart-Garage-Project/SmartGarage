@@ -78,13 +78,16 @@ public class CarServiceImplTests {
     @Test
     void testGetAllCarsFiltered() {
         Page<Car> page = mock(Page.class);
-        when(carRepository.findAllFiltered(anyString(), anyString(), anyString(), any(Pageable.class))).thenReturn(page);
+        when(carRepository.findAllFiltered(anyString(), anyString(), anyString(),
+                anyString(), any(Pageable.class))).thenReturn(page);
 
-        Page<Car> carsPage = carService.getAllCarsFiltered(user, "brand", "model", "ABC123", Pageable.unpaged());
+        Page<Car> carsPage = carService.getAllCarsFiltered(user, "brand", "model",
+                "ABC123", "IPopov",Pageable.unpaged());
 
         assertNotNull(carsPage);
         verify(authorizationHelper, times(1)).checkIfCurrentUserIsEmployee(user);
-        verify(carRepository, times(1)).findAllFiltered(anyString(), anyString(), anyString(), any(Pageable.class));
+        verify(carRepository, times(1)).findAllFiltered(anyString(), anyString(),
+                anyString(), anyString(), any(Pageable.class));
     }
 
     @Test
@@ -95,7 +98,8 @@ public class CarServiceImplTests {
         Page<Car> carsPage = carService.getUserCars(1, user, Pageable.unpaged());
 
         assertNotNull(carsPage);
-        verify(authorizationHelper, times(1)).checkIfCurrentUserIsEmployeeOrIsSameAsTargetUser(user, 1);
+        verify(authorizationHelper, times(1))
+                .checkIfCurrentUserIsEmployeeOrIsSameAsTargetUser(user, 1);
         verify(carRepository, times(1)).findUserCars(anyInt(), any(Pageable.class));
     }
 

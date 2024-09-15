@@ -46,16 +46,17 @@ public class UserMvcController {
                                @RequestParam(required = false) String phoneNumber,
                                @RequestParam(defaultValue = "0") int page) {
         User currentUser = authenticationHelper.tryGetCurrentUser(session);
-        Pageable pageable = PageRequest.of(page, 10);
+        Pageable pageable = PageRequest.of(page, 4);
         Page<User> usersPage = userService.getUsersFiltered(currentUser, username, email, phoneNumber, pageable);
         model.addAttribute("usersPage", usersPage);
-        return "UsersView";
+        return "AllUsersView";
     }
 
     @GetMapping("/{id}")
     public String showUserDetails(@PathVariable int id, Model model, HttpSession session,
                                   @RequestParam(defaultValue = "0") int page) {
         User currentUser = authenticationHelper.tryGetCurrentUser(session);
+        model.addAttribute("currentUser", currentUser);
         User user = userService.getById(id, currentUser);
         model.addAttribute("user", user);
         Pageable pageable = PageRequest.of(page, 3);
@@ -87,5 +88,12 @@ public class UserMvcController {
             bindingResult.rejectValue("phoneNumber", "error.phoneNumber", e.getMessage());
             return "CreateUserView";
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable int id, HttpSession session) {
+        User currentUser = authenticationHelper.tryGetCurrentUser(session);
+        userService.delete(id, currentUser);
+        return "redirect:/users";
     }
 }

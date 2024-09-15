@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Cars</title>
+    <link rel="stylesheet" th:href="@{/css/AllUsers.css}" href="../static/css/AllUsers.css"/>
+    <link th:insert="~{fragments :: tab-icon}">
+</head>
+<body>
+<header>
+    <div th:insert="~{fragments :: tab-bar}"></div>
+</header>
+
+<div class="container">
+    <h1>All Cars</h1>
+    <form th:action="@{/cars}" method="get" class="filter-form">
+        <div class="input-group">
+            <label for="ownerUsername">Owner:</label>
+            <input type="text" id="ownerUsername" name="ownerUsername" th:value="${param.ownerUsername}"/>
+        </div>
+        <div class="input-group">
+            <label for="licensePlate">License Plate:</label>
+            <input type="text" id="licensePlate" name="licensePlate" th:value="${param.licensePlate}"/>
+        </div>
+        <div class="input-group">
+            <label for="brand">Brand:</label>
+            <input type="text" id="brand" name="brand" th:value="${param.brand}"/>
+        </div>
+        <div class="input-group">
+            <label for="carModel">Model:</label>
+            <input type="text" id="carModel" name="carModel" th:value="${param.carModel}"/>
+        </div>
+        <div>
+            <button type="submit">Filter</button>
+        </div>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>License Plate</th>
+            <th>VIN</th>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Year</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="car : ${carsPage}">
+            <td th:text="${car.licensePlate}">License Plate</td>
+            <td th:text="${car.vin}">VIN</td>
+            <td th:text="${car.brand.name}">Brand</td>
+            <td th:text="${car.model.name}">Model</td>
+            <td th:text="${car.year}">Year</td>
+            <td>
+                <a th:href="@{/cars/{id}(id=${car.id})}" class="button">View Details</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination-container">
+        <span th:text="'Page ' + ${carsPage.number + 1} + ' of ' + ${carsPage.totalPages}"></span>
+        <div class="pagination-controls">
+            <a th:href="@{/cars(page=${carsPage.number - 1}, licensePlate=${param.licensePlate}, vin=${param.vin}, brand=${param.brand}, model=${param.model})}" th:if="${carsPage.hasPrevious()}">Previous</a>
+            <a th:href="@{/cars(page=${carsPage.number + 1}, licensePlate=${param.licensePlate}, vin=${param.vin}, brand=${param.brand}, model=${param.model})}" th:if="${carsPage.hasNext()}">Next</a>
+        </div>
+    </div>
+</div>
+
+<footer th:insert="~{fragments :: footer}"></footer>
+</body>
+</html>

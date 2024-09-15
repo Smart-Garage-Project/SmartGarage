@@ -30,7 +30,8 @@ public class CarMvcController {
 
     private final AuthenticationHelper authenticationHelper;
 
-    public CarMvcController(CarService carService, ServiceService serviceService, AuthenticationHelper authenticationHelper) {
+    public CarMvcController(CarService carService, ServiceService serviceService,
+                            AuthenticationHelper authenticationHelper) {
         this.carService = carService;
         this.serviceService = serviceService;
         this.authenticationHelper = authenticationHelper;
@@ -43,27 +44,30 @@ public class CarMvcController {
 
     @GetMapping
     public String showAllCars(Model model, HttpSession session,
+                              @RequestParam(required = false) String ownerUsername,
+                              @RequestParam(required = false) String licensePlate,
                               @RequestParam(required = false) String brand,
                               @RequestParam(required = false) String carModel,
-                              @RequestParam(required = false) String licensePlate,
                               @RequestParam(defaultValue = "0") int page) {
         User currentUser = authenticationHelper.tryGetCurrentUser(session);
-        Pageable pageable = PageRequest.of(page, 10);
-        Page<Car> carsPage = carService.getAllCarsFiltered(currentUser, brand, carModel, licensePlate, pageable);
+        Pageable pageable = PageRequest.of(page, 4);
+        Page<Car> carsPage = carService.getAllCarsFiltered(currentUser, ownerUsername,
+                licensePlate, brand, carModel, pageable);
         model.addAttribute("carsPage", carsPage);
-        return "CarsView";
+        return "AllCarsView";
     }
 
-    @GetMapping("/{id}")
-    public String showCarDetails(@PathVariable int id, Model model, HttpSession session,
+    @GetMapping("/{carId}")
+    public String showCarDetails(@PathVariable int carId,
                                  @RequestParam(required = false) LocalDate fromDate,
                                  @RequestParam(required = false) LocalDate toDate,
-                                 @RequestParam(defaultValue = "0") int page) {
+                                 @RequestParam(defaultValue = "0") int page,
+                                 Model model, HttpSession session) {
         User currentUser = authenticationHelper.tryGetCurrentUser(session);
-        Car car = carService.getById(id, currentUser);
+        Car car = carService.getById(carId, currentUser);
         model.addAttribute("car", car);
         Pageable pageable = PageRequest.of(page, 10);
-        Page<ServiceModel> serviceModelPage = serviceService.getByCarId(id, fromDate, toDate, pageable);
+        Page<ServiceModel> serviceModelPage = serviceService.getByCarId(carId, fromDate, toDate, pageable);
         model.addAttribute("serviceModelPage", serviceModelPage);
         return "CarDetailsView";
     }

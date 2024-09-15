@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>All Users</title>
+  <link rel="stylesheet" th:href="@{/css/AllUsers.css}" href="../static/css/AllUsers.css"/>
+  <link th:insert="~{fragments :: tab-icon}">
+</head>
+<body>
+<header>
+  <div th:insert="~{fragments :: tab-bar}"></div>
+</header>
+
+<div class="container">
+  <h1>All Users</h1>
+  <form th:action="@{/users}" method="get" class="filter-form">
+    <div class="input-group">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" th:value="${param.username}"/>
+    </div>
+    <div class="input-group">
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="email" th:value="${param.email}"/>
+    </div>
+    <div class="input-group">
+      <label for="phoneNumber">Phone Number:</label>
+      <input type="text" id="phoneNumber" name="phoneNumber" th:value="${param.phoneNumber}"/>
+    </div>
+    <div>
+      <button type="submit">Filter</button>
+    </div>
+  </form>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Phone Number</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${usersPage}">
+      <td th:text="${user.username}">Username</td>
+      <td th:text="${user.email}">Email</td>
+      <td th:text="${user.phoneNumber}">Phone Number</td>
+      <td>
+        <a th:href="@{/users/{id}(id=${user.id})}" class="button">View Details</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination-container">
+    <span th:text="'Page ' + ${usersPage.number + 1} + ' of ' + ${usersPage.totalPages}"></span>
+    <div class="pagination-controls">
+      <a th:href="@{/users(page=${usersPage.number - 1}, username=${param.username}, email=${param.email}, phoneNumber=${param.phoneNumber})}" th:if="${usersPage.hasPrevious()}">Previous</a>
+      <a th:href="@{/users(page=${usersPage.number + 1}, username=${param.username}, email=${param.email}, phoneNumber=${param.phoneNumber})}" th:if="${usersPage.hasNext()}">Next</a>
+    </div>
+  </div>
+</div>
+
+<footer th:insert="~{fragments :: footer}"></footer>
+</body>
+</html>

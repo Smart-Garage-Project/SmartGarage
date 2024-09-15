@@ -30,7 +30,7 @@ public class PartsMvcController {
 
     @GetMapping()
     public String showAllParts(Model model, @RequestParam(defaultValue = "0") int page) {
-        Pageable pageable = PageRequest.of(page, 10);
+        Pageable pageable = PageRequest.of(page, 3);
         Page<Part> partsPage = partService.getParts(pageable);
         model.addAttribute("partsPage", partsPage);
         return "WhatWeOfferView";

@@ -37,9 +37,10 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Page<Car> getAllCarsFiltered(User user, String brand, String model, String licensePlate, Pageable pageable) {
+    public Page<Car> getAllCarsFiltered(User user, String ownerUsername, String licensePlate,
+                                        String brand, String model, Pageable pageable) {
         authorizationHelper.checkIfCurrentUserIsEmployee(user);
-        return carRepository.findAllFiltered(brand, model, licensePlate, pageable);
+        return carRepository.findAllFiltered(ownerUsername, licensePlate, brand, model, pageable);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Car getById(int id, User user) {
-        authorizationHelper.checkIfCurrentUserIsEmployee(user);
+//        authorizationHelper.checkIfCurrentUserIsEmployeeOrIsSameAsTargetUser(user, id);
         return carRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Car", id));
     }
 

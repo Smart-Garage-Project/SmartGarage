@@ -2,33 +2,43 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>User Cars</title>
-    <link rel="stylesheet" th:href="@{/css/UserCars.css}" href="../static/css/UserCars.css"/>
+    <title>User Details</title>
+    <link rel="stylesheet" th:href="@{/css/UserDetails.css}" href="../static/css/UserDetails.css"/>
     <link th:insert="~{fragments :: tab-icon}">
 </head>
 <body>
 <header>
     <div th:insert="~{fragments :: tab-bar}"></div>
 </header>
-<div>
-    <h2>User Details</h2>
-    <p th:text="${user.getUsername()}"></p>
-    <p th:text="${user.getEmail()}"></p>
-    <p th:text="${user.getPhoneNumber()}"></p>
-</div>
-<div class="content">
-    <h1>User Cars</h1>
-    <div th:each="car : ${carsPage}">
-        <section class="section">
-            <h2 th:text="${car.brand.name} + ' ' + ${car.model.name}">Car Name</h2>
-            <p>License Plate: <span th:text="${car.licensePlate}">License Plate</span></p>
-            <p>Year: <span th:text="${car.year}">Year</span></p>
-        </section>
+
+<div class="container">
+    <h1>User Details</h1>
+    <div class="user-info">
+        <p><strong>Username:</strong> <span th:text="${user.getUsername()}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${user.getEmail()}"></span></p>
+        <p><strong>Phone Number:</strong> <span th:text="${user.getPhoneNumber()}"></span></p>
     </div>
-    <div class="pagination">
-        <a th:if="${carsPage.hasPrevious()}" th:href="@{/users/{id}/cars(page=${carsPage.number - 1})}">Previous</a>
-        <span th:text="${carsPage.number + 1}">1</span> / <span th:text="${carsPage.totalPages}">1</span>
-        <a th:if="${carsPage.hasNext()}" th:href="@{/users/{id}/cars(page=${carsPage.number + 1})}">Next</a>
+    <div th:if="${currentUser.id} == ${user.id}">
+        <form th:action="@{/users/{id}/delete(id=${user.getId()})}" method="post" onsubmit="return confirm('Are you sure you want to delete your account?');">
+            <button type="submit" class="button">Delete Account</button>
+        </form>
+    </div>
+
+    <div class="content">
+        <h1>User Cars</h1>
+        <div th:each="car : ${carsPage}">
+            <section class="section">
+                <h2 th:text="${car.brand.name} + ' ' + ${car.model.name}">Car Name</h2>
+                <p>License Plate: <span th:text="${car.licensePlate}">License Plate</span></p>
+                <p>Year: <span th:text="${car.year}">Year</span></p>
+                <a th:href="@{/cars/{id}(id=${car.id})}" class="button">View Details</a>
+            </section>
+        </div>
+        <div class="pagination">
+            <a th:if="${carsPage.hasPrevious()}" th:href="@{/users/{id}/cars(page=${carsPage.number - 1})}">Previous</a>
+            <span th:text="${carsPage.number + 1}">1</span> / <span th:text="${carsPage.totalPages}">1</span>
+            <a th:if="${carsPage.hasNext()}" th:href="@{/users/{id}/cars(page=${carsPage.number + 1})}">Next</a>
+        </div>
     </div>
 </div>
 

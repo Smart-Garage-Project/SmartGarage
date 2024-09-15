@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Details</title>
+    <link rel="stylesheet" th:href="@{/css/CarDetails.css}" href="../static/css/CarDetails.css"/>
+    <link th:insert="~{fragments :: tab-icon}">
+</head>
+<body>
+<header>
+    <div th:insert="~{fragments :: tab-bar}"></div>
+</header>
+
+<div class="container">
+    <h1>Car Details</h1>
+    <div class="car-info">
+        <p><strong>License Plate:</strong> <span th:text="${car.licensePlate}"></span></p>
+        <p><strong>VIN:</strong> <span th:text="${car.vin}"></span></p>
+        <p><strong>Brand:</strong> <span th:text="${car.brand.name}"></span></p>
+        <p><strong>Model:</strong> <span th:text="${car.model.name}"></span></p>
+        <p><strong>Year:</strong> <span th:text="${car.year}"></span></p>
+    </div>
+
+    <div class="content">
+        <h1>Car Services</h1>
+        <form th:action="@{/cars/{id}(id=${car.id})}" method="get">
+            <label for="fromDate">From Date:</label>
+            <input type="date" id="fromDate" name="fromDate" th:value="${param.fromDate}"/>
+            <label for="toDate">To Date:</label>
+            <input type="date" id="toDate" name="toDate" th:value="${param.toDate}"/>
+            <button type="submit">Filter</button>
+        </form>
+        <div th:each="service : ${serviceModelPage}">
+            <section class="section">
+                <p>Date: <span th:text="${service.date}">Service Date</span></p>
+                <p>Total: <span th:text="${service.total}">Service total</span></p>
+                <a th:href="@{/services/{id}(id=${service.id})}" class="button">View Details</a>
+            </section>
+        </div>
+        <div class="pagination">
+            <a th:if="${serviceModelPage.hasPrevious()}" th:href="@{/cars/{id}/services(page=${serviceModelPage.number - 1})}">Previous</a>
+            <span th:text="${serviceModelPage.number + 1}">1</span> / <span th:text="${serviceModelPage.totalPages}">1</span>
+            <a th:if="${serviceModelPage.hasNext()}" th:href="@{/cars/{id}/services(page=${serviceModelPage.number + 1})}">Next</a>
+        </div>
+    </div>
+</div>
+
+<footer th:insert="~{fragments :: footer}"></footer>
+</body>
+</html>

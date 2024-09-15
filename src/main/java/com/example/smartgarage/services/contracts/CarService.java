@@ -10,7 +10,8 @@ public interface CarService {
 
     Car getByLicensePlate(String licensePlate);
 
-    Page<Car> getAllCarsFiltered(User user, String brand, String model, String licensePlate, Pageable pageable);
+    Page<Car> getAllCarsFiltered(User user, String ownerUsername, String licensePlate,
+                                 String brand, String model, Pageable pageable);
 
     Page<Car> getUserCars(int id, User user, Pageable pageable);
 
