@@ -80,7 +80,7 @@ public class UserMvcController {
         try {
             User currentUser = authenticationHelper.tryGetCurrentUser(session);
             userService.create(newUserDto, currentUser);
-            return "redirect:/EmployeePanelView";
+            return "redirect:/employee-panel";
         } catch (EntityDuplicateException e) {
             bindingResult.rejectValue("username", "error.username", e.getMessage());
             bindingResult.rejectValue("email", "error.email", e.getMessage());

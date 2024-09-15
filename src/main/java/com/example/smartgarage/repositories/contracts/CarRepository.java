@@ -25,5 +25,8 @@ public interface CarRepository extends JpaRepository<Car, Integer> {
 
     @Query("SELECT c FROM Car AS c WHERE c.licensePlate = :licensePlate")
     Optional<Car> findByLicensePlate(@Param("licensePlate") String licensePlate);
+
+    @Query("SELECT c FROM Car AS c WHERE c.vin = :vin")
+    Optional<Car> findByVin(@Param("vin") String vin);
 }
 

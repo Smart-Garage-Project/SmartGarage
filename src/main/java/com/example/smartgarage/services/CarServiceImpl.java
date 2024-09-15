@@ -62,6 +62,10 @@ public class CarServiceImpl implements CarService {
             throw new EntityDuplicateException("Car", "license plate", carDto.getLicensePlate());
         });
 
+        carRepository.findByVin(carDto.getVin()).ifPresent(car -> {
+            throw new EntityDuplicateException("Car", "vin", carDto.getVin());
+        });
+
         Car car = carMapper.fromDto(carDto);
 
         return carRepository.save(car);

@@ -84,9 +84,10 @@ public class CarMvcController {
         try {
             User currentUser = authenticationHelper.tryGetCurrentUser(session);
             carService.create(newCarDto, currentUser);
-            return "redirect:/EmployeePanelView";
+            return "redirect:/employee-panel";
         } catch (EntityDuplicateException e) {
             bindingResult.rejectValue("licensePlate", "error.licensePlate", e.getMessage());
+            bindingResult.rejectValue("vin", "error.vin", e.getMessage());
             return "CreateCarView";
         }
     }
