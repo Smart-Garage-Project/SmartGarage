@@ -64,9 +64,10 @@ public class CarMvcController {
                                  @RequestParam(defaultValue = "0") int page,
                                  Model model, HttpSession session) {
         User currentUser = authenticationHelper.tryGetCurrentUser(session);
+        model.addAttribute("currentUser", currentUser);
         Car car = carService.getById(carId, currentUser);
         model.addAttribute("car", car);
-        Pageable pageable = PageRequest.of(page, 10);
+        Pageable pageable = PageRequest.of(page, 3);
         Page<ServiceModel> serviceModelPage = serviceService.getByCarId(carId, fromDate, toDate, pageable);
         model.addAttribute("serviceModelPage", serviceModelPage);
         return "CarDetailsView";

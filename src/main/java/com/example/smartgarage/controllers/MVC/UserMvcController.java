@@ -2,7 +2,6 @@ package com.example.smartgarage.controllers.MVC;
 
 import com.example.smartgarage.exceptions.EntityDuplicateException;
 import com.example.smartgarage.helpers.AuthenticationHelper;
-import com.example.smartgarage.helpers.UserMapper;
 import com.example.smartgarage.models.Car;
 import com.example.smartgarage.models.NewUserDto;
 import com.example.smartgarage.models.User;
@@ -91,9 +90,12 @@ public class UserMvcController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable int id, HttpSession session) {
+    public String deleteUser(@PathVariable int id, Model model, HttpSession session) {
         User currentUser = authenticationHelper.tryGetCurrentUser(session);
+        model.addAttribute("currentUser", currentUser);
+        User user = userService.getById(id, currentUser);
+        model.addAttribute("user", user);
         userService.delete(id, currentUser);
-        return "redirect:/users";
+        return "redirect:/";
     }
 }
