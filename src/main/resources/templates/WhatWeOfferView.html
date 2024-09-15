@@ -13,7 +13,7 @@
 
 <div class="content">
     <h1>Our Parts</h1>
-    <div th:each="part : ${partsPage.content}">
+    <div th:each="part : ${partsPage}">
         <section class="section">
             <h2 th:text="${part.name}">Part Name</h2>
             <p>Starts from <span th:text="${part.price} + ' BGN'">Price</span></p>

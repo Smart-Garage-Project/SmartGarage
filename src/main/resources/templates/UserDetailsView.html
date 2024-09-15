@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Cars</title>
+    <link rel="stylesheet" th:href="@{/css/UserCars.css}" href="../static/css/UserCars.css"/>
+    <link th:insert="~{fragments :: tab-icon}">
+</head>
+<body>
+<header>
+    <div th:insert="~{fragments :: tab-bar}"></div>
+</header>
+<div>
+    <h2>User Details</h2>
+    <p th:text="${user.getUsername()}"></p>
+    <p th:text="${user.getEmail()}"></p>
+    <p th:text="${user.getPhoneNumber()}"></p>
+</div>
+<div class="content">
+    <h1>User Cars</h1>
+    <div th:each="car : ${carsPage}">
+        <section class="section">
+            <h2 th:text="${car.brand.name} + ' ' + ${car.model.name}">Car Name</h2>
+            <p>License Plate: <span th:text="${car.licensePlate}">License Plate</span></p>
+            <p>Year: <span th:text="${car.year}">Year</span></p>
+        </section>
+    </div>
+    <div class="pagination">
+        <a th:if="${carsPage.hasPrevious()}" th:href="@{/users/{id}/cars(page=${carsPage.number - 1})}">Previous</a>
+        <span th:text="${carsPage.number + 1}">1</span> / <span th:text="${carsPage.totalPages}">1</span>
+        <a th:if="${carsPage.hasNext()}" th:href="@{/users/{id}/cars(page=${carsPage.number + 1})}">Next</a>
+    </div>
+</div>
+
+<footer th:insert="~{fragments :: footer}"></footer>
+</body>
+</html>

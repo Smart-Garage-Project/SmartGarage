@@ -58,7 +58,7 @@ public class UserMvcController {
         User currentUser = authenticationHelper.tryGetCurrentUser(session);
         User user = userService.getById(id, currentUser);
         model.addAttribute("user", user);
-        Pageable pageable = PageRequest.of(page, 10);
+        Pageable pageable = PageRequest.of(page, 3);
         Page<Car> carsPage = carService.getUserCars(id, currentUser, pageable);
         model.addAttribute("carsPage", carsPage);
         return "UserDetailsView";
