@@ -16,10 +16,10 @@ public interface ServiceRepository extends JpaRepository<ServiceModel, Integer> 
             WHERE sm.car.id = :carId
             AND (:fromDate IS NULL OR sm.date >= :fromDate)
             AND (:toDate IS NULL OR sm.date <= :toDate)
+            ORDER BY sm.date DESC
             """)
     Page<ServiceModel> findCarServices(@Param("carId") int carId,
                                        @Param("fromDate") LocalDate fromDate,
                                        @Param("toDate") LocalDate toDate,
                                        Pageable pageable);
-
 }
