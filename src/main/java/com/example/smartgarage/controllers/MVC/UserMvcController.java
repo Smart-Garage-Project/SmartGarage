@@ -1,10 +1,11 @@
 package com.example.smartgarage.controllers.MVC;
 
+import com.example.smartgarage.exceptions.ArgumentsMismatchException;
+import com.example.smartgarage.exceptions.AuthorizationException;
 import com.example.smartgarage.exceptions.EntityDuplicateException;
+import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.helpers.AuthenticationHelper;
-import com.example.smartgarage.models.Car;
-import com.example.smartgarage.models.NewUserDto;
-import com.example.smartgarage.models.User;
+import com.example.smartgarage.models.*;
 import com.example.smartgarage.services.contracts.CarService;
 import com.example.smartgarage.services.contracts.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -89,6 +90,36 @@ public class UserMvcController {
         }
     }
 
+    @GetMapping("/{id}/update")
+    public String showUpdateUserPage(@PathVariable int id, Model model, HttpSession session) {
+        User currentUser = authenticationHelper.tryGetCurrentUser(session);
+        User user = userService.getById(id, currentUser);
+        model.addAttribute("user", user);
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("updateUser", new UpdateUserDto());
+        return "UpdateUserView";
+    }
+
+    @PostMapping("/{id}/update")
+    public String handleUpdateUser(@PathVariable int id, @Valid @ModelAttribute("updateUser") UpdateUserDto userDto,
+                                   BindingResult bindingResult, HttpSession session) {
+        if (bindingResult.hasErrors()) {
+            return "UpdateUserView";
+        }
+
+        try {
+            User currentUser = authenticationHelper.tryGetCurrentUser(session);
+            User userToUpdate = userService.getById(id, currentUser);
+            userService.update(userToUpdate.getId(), userDto, currentUser);
+            return "redirect:/users/" + id;
+        } catch (ArgumentsMismatchException e) {
+            bindingResult.rejectValue("oldPassword", "error.oldPassword", e.getMessage());
+            bindingResult.rejectValue("newPassword", "error.newPassword", e.getMessage());
+            bindingResult.rejectValue("confirmPassword", "error.confirmPassword", e.getMessage());
+            return "UpdateUserView";
+        }
+    }
+
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable int id, Model model, HttpSession session) {
         User currentUser = authenticationHelper.tryGetCurrentUser(session);
@@ -97,5 +128,27 @@ public class UserMvcController {
         model.addAttribute("user", user);
         userService.delete(id, currentUser);
         return "redirect:/";
+    }
+
+    @GetMapping("/forgotten-password")
+    public String showForgottenPasswordPage(Model model) {
+        model.addAttribute("emailDto", new EmailDto());
+        return "ForgottenPasswordView";
+    }
+
+    @PostMapping("/forgotten-password")
+    public String handleForgottenPassword(@Valid @ModelAttribute("emailDto") EmailDto emailDto,
+                                          BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "ForgottenPasswordView";
+        }
+
+        try {
+            userService.generateNewPassword(emailDto.getEmail());
+            return "redirect:/auth/login";
+        } catch (EntityNotFoundException e) {
+            bindingResult.rejectValue("email", "error.email", e.getMessage());
+            return "ForgottenPasswordView";
+        }
     }
 }

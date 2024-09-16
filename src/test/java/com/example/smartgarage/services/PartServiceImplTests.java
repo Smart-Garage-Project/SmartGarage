@@ -61,13 +61,13 @@ public class PartServiceImplTests {
 
     @Test
     void testGetExcludedParts() {
-        Page<Part> page = mock(Page.class);
-        when(partRepository.findAllExcluded(anyList(), any(Pageable.class))).thenReturn(page);
+        List<Part> page = mock(List.class);
+        when(partRepository.findAllExcluded(anyList()));
 
-        Page<Part> partsPage = partService.getExcludedParts(List.of(1), Pageable.unpaged());
+        List<Part> partsPage = partService.getExcludedParts(List.of(1));
 
         assertNotNull(partsPage);
-        verify(partRepository, times(1)).findAllExcluded(anyList(), any(Pageable.class));
+        verify(partRepository, times(1)).findAllExcluded(anyList());
     }
 
     @Test

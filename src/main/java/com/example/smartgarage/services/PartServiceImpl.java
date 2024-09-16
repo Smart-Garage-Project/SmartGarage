@@ -32,8 +32,8 @@ public class PartServiceImpl implements PartService {
     }
 
     @Override
-    public Page<Part> getExcludedParts(List<Integer> excludedPartIds, Pageable pageable) {
-        return partRepository.findAllExcluded(excludedPartIds, pageable);
+    public List<Part> getExcludedParts(List<Integer> excludedPartIds) {
+        return partRepository.findAllExcluded(excludedPartIds);
     }
 
 

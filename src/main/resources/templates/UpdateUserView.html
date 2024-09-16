@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update User</title>
+    <link rel="stylesheet" th:href="@{/css/UpdateUser.css}" href="../static/css/UpdateUser.css"/>
+    <link th:insert="~{fragments :: tab-icon}">
+</head>
+<body>
+<header>
+    <div th:insert="~{fragments :: tab-bar}"></div>
+</header>
+
+<div class="container">
+    <h1>Update User</h1>
+    <form th:action="@{/users/{id}/update(id=${user.id})}" th:object="${updateUser}" method="post">
+        <div>
+            <label for="oldPassword">Old Password:</label>
+            <input type="password" id="oldPassword" th:field="*{oldPassword}" />
+            <div th:if="${#fields.hasErrors('oldPassword')}" th:errors="*{oldPassword}"></div>
+        </div>
+        <div>
+            <label for="newPassword">New Password:</label>
+            <input type="password" id="newPassword" th:field="*{newPassword}" />
+            <div th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}"></div>
+        </div>
+        <div>
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" th:field="*{confirmPassword}" />
+            <div th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
+        </div>
+        <button type="submit">Update</button>
+    </form>
+</div>
+
+<footer th:insert="~{fragments :: footer}"></footer>
+</body>
+</html>

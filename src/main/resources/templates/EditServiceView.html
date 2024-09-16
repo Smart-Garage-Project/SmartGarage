@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Service</title>
+    <link rel="stylesheet" th:href="@{/css/EditService.css}" href="../static/css/EditService.css"/>
+    <link th:insert="~{fragments :: tab-icon}">
+</head>
+<body>
+<header>
+    <div th:insert="~{fragments :: tab-bar}"></div>
+</header>
+
+<div class="container">
+    <h1>Edit Service</h1>
+    <form th:action="@{/services/{id}/edit(id=${service.id})}" method="post">
+        <div class="scrollable-container">
+            <div th:each="part : ${excludedParts}">
+                <label th:text="${part.name}"></label>
+                <input type="checkbox" name="partIds" th:value="${part.id}" class="large-checkbox"/>
+            </div>
+        </div>
+        <div>
+            <button type="submit">Add Parts</button>
+        </div>
+    </form>
+</div>
+
+<footer th:insert="~{fragments :: footer}"></footer>
+</body>
+</html>

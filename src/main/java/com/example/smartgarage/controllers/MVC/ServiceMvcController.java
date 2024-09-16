@@ -98,8 +98,9 @@ public class ServiceMvcController {
         ServiceModel service = serviceService.getById(id);
         List<Integer> includedPartIds = service.getParts().stream().map(Part::getId).toList();
         Pageable pageable = PageRequest.of(page, 10);
-        Page<Part> excludedParts = partService.getExcludedParts(includedPartIds, pageable);
+        List<Part> excludedParts = partService.getExcludedParts(includedPartIds);
 
+        model.addAttribute("isEmployee", currentUser.isEmployee());
         model.addAttribute("service", service);
         model.addAttribute("excludedParts", excludedParts);
 

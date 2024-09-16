@@ -12,7 +12,7 @@ public interface PartService {
 
     Page<Part> getParts(Pageable pageable);
 
-    Page<Part> getExcludedParts(List<Integer> excludedPartIds, Pageable pageable);
+    List<Part> getExcludedParts(List<Integer> excludedPartIds);
 
     Part getById(int id);
 }

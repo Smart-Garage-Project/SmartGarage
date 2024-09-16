@@ -62,11 +62,11 @@ public class RestServiceController {
     }
 
     @GetMapping("/{id}/parts-excluded")
-    public Page<Part> getExcludedParts(@RequestHeader HttpHeaders headers, @PathVariable int id,
+    public List<Part> getExcludedParts(@RequestHeader HttpHeaders headers, @PathVariable int id,
                                        @RequestParam(defaultValue = "0") int page) {
         ServiceModel serviceModel = serviceService.getById(id);
         Pageable pageable = PageRequest.of(page, 10);
         List<Integer> excludedPartIds = serviceModel.getParts().stream().map(Part::getId).toList();
-        return partService.getExcludedParts(excludedPartIds, pageable);
+        return partService.getExcludedParts(excludedPartIds);
     }
 }

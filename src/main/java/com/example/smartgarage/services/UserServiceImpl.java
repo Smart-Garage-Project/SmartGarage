@@ -115,7 +115,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void generateNewPassword(String email) {
-
         User user = userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User", "email", email));
         user.setPassword(passwordGenerator.generatePassword());
         userRepository.save(user);

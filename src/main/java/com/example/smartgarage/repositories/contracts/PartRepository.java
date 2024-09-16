@@ -12,7 +12,7 @@ import java.util.List;
 public interface PartRepository extends JpaRepository<Part, Integer> {
 
     @Query("SELECT p FROM Part AS p WHERE p.id NOT IN :excludedPartIds")
-    Page<Part> findAllExcluded(@Param("excludedPartIds") List<Integer> excludedPartIds, Pageable pageable);
+    List<Part> findAllExcluded(@Param("excludedPartIds") List<Integer> excludedPartIds);
 
     @Query("SELECT p FROM Part AS p")
     Page<Part> findAllPaged(Pageable pageable);
