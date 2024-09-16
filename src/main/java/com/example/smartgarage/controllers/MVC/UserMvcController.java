@@ -93,10 +93,10 @@ public class UserMvcController {
     @GetMapping("/{id}/update")
     public String showUpdateUserPage(@PathVariable int id, Model model, HttpSession session) {
         User currentUser = authenticationHelper.tryGetCurrentUser(session);
+        model.addAttribute("updateUser", new UpdateUserDto());
         User user = userService.getById(id, currentUser);
         model.addAttribute("user", user);
         model.addAttribute("currentUser", currentUser);
-        model.addAttribute("updateUser", new UpdateUserDto());
         return "UpdateUserView";
     }
 
@@ -110,7 +110,7 @@ public class UserMvcController {
         try {
             User currentUser = authenticationHelper.tryGetCurrentUser(session);
             User userToUpdate = userService.getById(id, currentUser);
-            userService.update(userToUpdate.getId(), userDto, currentUser);
+            userService.update(id, userDto, currentUser);
             return "redirect:/users/" + id;
         } catch (ArgumentsMismatchException e) {
             bindingResult.rejectValue("oldPassword", "error.oldPassword", e.getMessage());

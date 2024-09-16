@@ -19,10 +19,10 @@
         <p><strong>Phone Number:</strong> <span th:text="${user.getPhoneNumber()}"></span></p>
     </div>
     <div th:if="${currentUser.id} == ${user.id}">
-        <form th:action="@{/users/{id}/update(id=${user.getId()})}" method="get">
+        <form th:action="@{/users/{id}/update(id=${user.id})}" method="get">
             <button type="submit">Update Password</button>
         </form>
-        <form th:action="@{/users/{id}/delete(id=${user.getId()})}" method="post" onsubmit="return confirm('Are you sure you want to delete your account?');">
+        <form th:action="@{/users/{id}/delete(id=${user.id})}" method="post" onsubmit="return confirm('Are you sure you want to delete your account?');">
             <button type="submit">Delete Account</button>
         </form>
     </div>
