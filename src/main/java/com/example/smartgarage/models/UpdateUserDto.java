@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.Length;
 @NoArgsConstructor
 public class UpdateUserDto {
 
-    private final String PASSWORD_PATTERN = "^(?=.*[A-Z])(?=.*\\d)(?=.*[+*\\-^])[A-Za-z\\d+*\\-^]{8,}$\n";
+    private final String PASSWORD_PATTERN = "^(?=.*[A-Z])(?=.*\\d)(?=.*[+\\-*^])[A-Za-z\\d+\\-*^]{8,}$";
 
     private final String MESSAGE = "Password must contain at least 8 symbols and should contain a capital letter, digit, and special symbol (+, -, *, ^, etc.)";
 

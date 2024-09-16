@@ -16,10 +16,10 @@ public interface CarRepository extends JpaRepository<Car, Integer> {
 
     @Query("""
             SELECT c FROM Car AS c
-            WHERE (:owner IS NULL OR c.owner.username LIKE :owner)
-            AND (:licensePlate IS NULL OR c.licensePlate LIKE %:licensePlate%)
-            AND (:model IS NULL OR c.model.name LIKE %:model%)
-            AND (:brand IS NULL OR c.brand.name LIKE %:brand%)
+            WHERE (:owner IS NULL OR :owner = '' OR c.owner.username LIKE :owner)
+            AND (:licensePlate IS NULL OR :licensePlate = '' OR c.licensePlate LIKE %:licensePlate%)
+            AND (:model IS NULL OR :model = '' OR c.model.name LIKE %:model%)
+            AND (:brand IS NULL OR :brand = '' OR c.brand.name LIKE %:brand%)
             """)
     Page<Car> findAllFiltered(@Param("owner") String ownerUsername,
                               @Param("licensePlate") String licensePlate,

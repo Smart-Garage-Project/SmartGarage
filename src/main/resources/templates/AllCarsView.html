@@ -60,7 +60,8 @@
     </table>
 
     <div class="pagination-container">
-        <span th:text="'Page ' + ${carsPage.number + 1} + ' of ' + ${carsPage.totalPages}"></span>
+        <span th:if="${carsPage.isEmpty()}" th:text="'Page ' + ${carsPage.number} + ' of ' + ${carsPage.totalPages}"></span>
+        <span th:unless="${carsPage.isEmpty()}" th:text="'Page ' + ${carsPage.number + 1} + ' of ' + ${carsPage.totalPages}"></span>
         <div class="pagination-controls">
             <a th:href="@{/cars(page=${carsPage.number - 1}, licensePlate=${param.licensePlate}, vin=${param.vin}, brand=${param.brand}, model=${param.model})}" th:if="${carsPage.hasPrevious()}">Previous</a>
             <a th:href="@{/cars(page=${carsPage.number + 1}, licensePlate=${param.licensePlate}, vin=${param.vin}, brand=${param.brand}, model=${param.model})}" th:if="${carsPage.hasNext()}">Next</a>

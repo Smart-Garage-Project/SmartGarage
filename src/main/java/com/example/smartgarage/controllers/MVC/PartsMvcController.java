@@ -1,6 +1,8 @@
 package com.example.smartgarage.controllers.MVC;
 
+import com.example.smartgarage.helpers.AuthenticationHelper;
 import com.example.smartgarage.models.Part;
+import com.example.smartgarage.models.User;
 import com.example.smartgarage.services.contracts.PartService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.data.domain.Page;
@@ -19,8 +21,11 @@ public class PartsMvcController {
 
     private final PartService partService;
 
-    public PartsMvcController(PartService partService) {
+    private final AuthenticationHelper authenticationHelper;
+
+    public PartsMvcController(PartService partService, AuthenticationHelper authenticationHelper) {
         this.partService = partService;
+        this.authenticationHelper = authenticationHelper;
     }
 
     @ModelAttribute("isAuthenticated")
@@ -29,10 +34,13 @@ public class PartsMvcController {
     }
 
     @GetMapping()
-    public String showAllParts(Model model, @RequestParam(defaultValue = "0") int page) {
+    public String showAllParts(Model model, HttpSession session, @RequestParam(defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, 3);
         Page<Part> partsPage = partService.getParts(pageable);
         model.addAttribute("partsPage", partsPage);
+        User currentUser = authenticationHelper.tryGetCurrentUser(session);
+        model.addAttribute("currentUser", currentUser);
+
         return "WhatWeOfferView";
     }
 }

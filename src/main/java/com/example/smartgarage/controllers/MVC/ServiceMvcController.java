@@ -32,7 +32,9 @@ public class ServiceMvcController {
 
     private final AuthenticationHelper authenticationHelper;
 
-    public ServiceMvcController(CarService carService, ServiceService serviceService, PartService partService, ServiceModelMapper serviceModelMapper, AuthenticationHelper authenticationHelper) {
+    public ServiceMvcController(CarService carService, ServiceService serviceService,
+                                PartService partService, ServiceModelMapper serviceModelMapper,
+                                AuthenticationHelper authenticationHelper) {
         this.carService = carService;
         this.serviceService = serviceService;
         this.partService = partService;
@@ -71,6 +73,8 @@ public class ServiceMvcController {
             return "CreateServiceView";
         }
 
+        //TODO Add validation for the license plate
+
         User currentUser = authenticationHelper.tryGetCurrentUser(session);
         Car car = carService.getByLicensePlate(serviceModelDto.getLicensePlate());
         if (car == null) {
@@ -93,11 +97,10 @@ public class ServiceMvcController {
 
     @GetMapping("/{id}/edit")
     public String showEditServiceForm(@PathVariable int id, Model model,
-                                      HttpSession session, @RequestParam(defaultValue = "0") int page) {
+                                      HttpSession session) {
         User currentUser = authenticationHelper.tryGetCurrentUser(session);
         ServiceModel service = serviceService.getById(id);
         List<Integer> includedPartIds = service.getParts().stream().map(Part::getId).toList();
-        Pageable pageable = PageRequest.of(page, 10);
         List<Part> excludedParts = partService.getExcludedParts(includedPartIds);
 
         model.addAttribute("isEmployee", currentUser.isEmployee());

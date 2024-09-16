@@ -21,9 +21,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("""
             SELECT DISTINCT u FROM User AS u
-            WHERE (:username IS NULL OR u.username LIKE %:username%)
-            AND (:email IS NULL OR u.email LIKE %:email%)
-            AND (:phoneNumber IS NULL OR u.phoneNumber LIKE %:phoneNumber%)
+            WHERE (:username IS NULL OR :username = '' OR u.username LIKE %:username%)
+            AND (:email IS NULL OR :email = '' OR u.email LIKE %:email%)
+            AND (:phoneNumber IS NULL OR :phoneNumber = '' OR u.phoneNumber LIKE %:phoneNumber%)
             """)
     Page<User> findUsersByCriteria(@Param("username") String username,
                                    @Param("email") String email,

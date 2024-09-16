@@ -102,14 +102,18 @@ public class UserMvcController {
 
     @PostMapping("/{id}/update")
     public String handleUpdateUser(@PathVariable int id, @Valid @ModelAttribute("updateUser") UpdateUserDto userDto,
-                                   BindingResult bindingResult, HttpSession session) {
+                                   BindingResult bindingResult, Model model, HttpSession session) {
+
+        User currentUser = authenticationHelper.tryGetCurrentUser(session);
+        User user = userService.getById(id, currentUser);
+
         if (bindingResult.hasErrors()) {
+            model.addAttribute("user", user);
+            model.addAttribute("currentUser", currentUser);
             return "UpdateUserView";
         }
 
         try {
-            User currentUser = authenticationHelper.tryGetCurrentUser(session);
-            User userToUpdate = userService.getById(id, currentUser);
             userService.update(id, userDto, currentUser);
             return "redirect:/users/" + id;
         } catch (ArgumentsMismatchException e) {

@@ -4,11 +4,11 @@ import com.example.smartgarage.exceptions.EntityDuplicateException;
 import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.helpers.AuthorizationHelper;
 import com.example.smartgarage.helpers.CarMapper;
-import com.example.smartgarage.models.Car;
-import com.example.smartgarage.models.CarDto;
-import com.example.smartgarage.models.User;
+import com.example.smartgarage.models.*;
 import com.example.smartgarage.repositories.contracts.CarRepository;
+import com.example.smartgarage.services.contracts.BrandService;
 import com.example.smartgarage.services.contracts.CarService;
+import com.example.smartgarage.services.contracts.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,13 +19,19 @@ public class CarServiceImpl implements CarService {
 
     private final CarMapper carMapper;
 
+    private final BrandService brandService;
+
+    private final ModelService modelService;
+
     private final CarRepository carRepository;
 
     private final AuthorizationHelper authorizationHelper;
 
     @Autowired
-    public CarServiceImpl(CarMapper carMapper, AuthorizationHelper authorizationHelper, CarRepository carRepository) {
+    public CarServiceImpl(CarMapper carMapper, BrandService brandService, ModelService modelService, AuthorizationHelper authorizationHelper, CarRepository carRepository) {
         this.carMapper = carMapper;
+        this.brandService = brandService;
+        this.modelService = modelService;
         this.authorizationHelper = authorizationHelper;
         this.carRepository = carRepository;
     }
@@ -66,6 +72,27 @@ public class CarServiceImpl implements CarService {
         carRepository.findByVin(carDto.getVin()).ifPresent(car -> {
             throw new EntityDuplicateException("Car", "vin", carDto.getVin());
         });
+
+        Brand brand;
+
+        try {
+           brand  = brandService.getByName(carDto.getBrandName());
+        }catch (EntityNotFoundException e){
+            brand = new Brand();
+            brand.setName(carDto.getBrandName());
+            brandService.create(brand);
+        }
+
+        Model model;
+
+        try {
+            model = modelService.getByName(carDto.getModelName());
+        }catch (EntityNotFoundException e){
+            model = new Model();
+            model.setName(carDto.getModelName());
+            model.setBrand(brand);
+            modelService.create(model);
+        }
 
         Car car = carMapper.fromDto(carDto);
 

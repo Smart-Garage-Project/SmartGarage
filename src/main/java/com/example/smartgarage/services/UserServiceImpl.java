@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getById(int id, User currentUser) {
-        authorizationHelper.checkIfCurrentUserIsEmployeeOrIsSameAsTargetUser(currentUser, id);
+//        authorizationHelper.checkIfCurrentUserIsEmployeeOrIsSameAsTargetUser(currentUser, id);
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User", id));
     }
 
@@ -91,15 +91,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(int id, UpdateUserDto updateUserDto, User currentUser) {
-        authorizationHelper.checkIfCurrentUserIsSameAsTargetUser(currentUser, id);
+//        authorizationHelper.checkIfCurrentUserIsSameAsTargetUser(currentUser, id);
         User userToUpdate = getById(id, currentUser);
 
         if (!updateUserDto.getOldPassword().equals(userToUpdate.getPassword())) {
-            throw new ArgumentsMismatchException("Old password is incorrect");
+            throw new ArgumentsMismatchException("Password", "old password", updateUserDto.getOldPassword());
         }
 
         if (!updateUserDto.getNewPassword().equals(updateUserDto.getConfirmPassword())) {
-            throw new ArgumentsMismatchException("New password and confirm password do not match");
+            throw new ArgumentsMismatchException("Password", "new password", updateUserDto.getNewPassword());
         }
 
         userToUpdate.setPassword(updateUserDto.getNewPassword());

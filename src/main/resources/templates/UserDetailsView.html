@@ -39,7 +39,8 @@
         </div>
         <div class="pagination">
             <a th:if="${carsPage.hasPrevious()}" th:href="@{/users/{id}/cars(page=${carsPage.number - 1})}">Previous</a>
-            <span th:text="${carsPage.number + 1}">1</span> / <span th:text="${carsPage.totalPages}">1</span>
+            <span th:if="${carsPage.isEmpty()}" th:text="${carsPage.number}">0</span>
+            <span th:unless="${carsPage.isEmpty()}" th:text="${carsPage.number + 1}">1</span> / <span th:text="${carsPage.totalPages}">1</span>
             <a th:if="${carsPage.hasNext()}" th:href="@{/users/{id}/cars(page=${carsPage.number + 1})}">Next</a>
         </div>
     </div>
