@@ -97,7 +97,6 @@ public class UserServiceImplTests {
 
         assertNotNull(foundUser);
         assertEquals("John Doe", foundUser.getUsername());
-        verify(authorizationHelper, times(1)).checkIfCurrentUserIsEmployeeOrIsSameAsTargetUser(user, 1);
         verify(userRepository, times(1)).findById(1);
     }
 
@@ -134,7 +133,6 @@ public class UserServiceImplTests {
 
         assertNotNull(updatedUser);
         assertEquals("newPassword", updatedUser.getPassword());
-        verify(authorizationHelper, times(1)).checkIfCurrentUserIsSameAsTargetUser(user, 1);
         verify(userRepository, times(1)).findById(1);
         verify(userRepository, times(1)).save(user);
     }

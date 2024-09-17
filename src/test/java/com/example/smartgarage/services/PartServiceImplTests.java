@@ -61,12 +61,14 @@ public class PartServiceImplTests {
 
     @Test
     void testGetExcludedParts() {
-        List<Part> page = mock(List.class);
-        when(partRepository.findAllExcluded(anyList()));
+        List<Part> parts = List.of(part);
+        when(partRepository.findAllExcluded(anyList())).thenReturn(parts);
 
         List<Part> partsPage = partService.getExcludedParts(List.of(1));
 
         assertNotNull(partsPage);
+        assertEquals(1, partsPage.size());
+        assertEquals("Brake Pad", partsPage.get(0).getName());
         verify(partRepository, times(1)).findAllExcluded(anyList());
     }
 

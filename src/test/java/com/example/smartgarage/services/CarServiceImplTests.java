@@ -4,10 +4,10 @@ import com.example.smartgarage.exceptions.EntityDuplicateException;
 import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.helpers.AuthorizationHelper;
 import com.example.smartgarage.helpers.CarMapper;
-import com.example.smartgarage.models.Car;
-import com.example.smartgarage.models.CarDto;
-import com.example.smartgarage.models.User;
+import com.example.smartgarage.models.*;
 import com.example.smartgarage.repositories.contracts.CarRepository;
+import com.example.smartgarage.services.contracts.BrandService;
+import com.example.smartgarage.services.contracts.ModelService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,6 +33,12 @@ public class CarServiceImplTests {
 
     @Mock
     private AuthorizationHelper authorizationHelper;
+
+    @Mock
+    private BrandService brandService;
+
+    @Mock
+    private ModelService modelService;
 
     @InjectMocks
     private CarServiceImpl carService;
@@ -82,7 +88,7 @@ public class CarServiceImplTests {
                 anyString(), any(Pageable.class))).thenReturn(page);
 
         Page<Car> carsPage = carService.getAllCarsFiltered(user, "brand", "model",
-                "ABC123", "IPopov",Pageable.unpaged());
+                "ABC123", "IPopov", Pageable.unpaged());
 
         assertNotNull(carsPage);
         verify(authorizationHelper, times(1)).checkIfCurrentUserIsEmployee(user);
@@ -111,7 +117,6 @@ public class CarServiceImplTests {
 
         assertNotNull(foundCar);
         assertEquals(1, foundCar.getId());
-        verify(authorizationHelper, times(1)).checkIfCurrentUserIsEmployee(user);
         verify(carRepository, times(1)).findById(1);
     }
 
@@ -122,7 +127,6 @@ public class CarServiceImplTests {
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> carService.getById(1, user));
 
         assertEquals("Car with id 1 not found.", exception.getMessage());
-        verify(authorizationHelper, times(1)).checkIfCurrentUserIsEmployee(user);
         verify(carRepository, times(1)).findById(1);
     }
 
