@@ -1,6 +1,7 @@
 package com.example.smartgarage.services;
 
 import com.example.smartgarage.models.ExchangeRateResponse;
+import com.example.smartgarage.services.contracts.ExchangeService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ExchangeServiceImpl {
+public class ExchangeServiceImpl implements ExchangeService {
 
     @Value("${exchangerate.api.base-url}")
     private String baseUrl;

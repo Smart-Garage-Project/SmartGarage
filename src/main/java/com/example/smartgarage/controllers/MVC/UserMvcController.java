@@ -124,13 +124,14 @@ public class UserMvcController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}/delete")
     public String deleteUser(@PathVariable int id, Model model, HttpSession session) {
         User currentUser = authenticationHelper.tryGetCurrentUser(session);
         model.addAttribute("currentUser", currentUser);
         User user = userService.getById(id, currentUser);
         model.addAttribute("user", user);
         userService.delete(id, currentUser);
+        session.invalidate();
         return "redirect:/";
     }
 

@@ -3,16 +3,16 @@ package com.example.smartgarage.controllers.MVC;
 import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.helpers.AuthenticationHelper;
 import com.example.smartgarage.helpers.ServiceModelMapper;
-import com.example.smartgarage.models.*;
-import com.example.smartgarage.services.ExchangeServiceImpl;
+import com.example.smartgarage.models.Part;
+import com.example.smartgarage.models.ServiceModel;
+import com.example.smartgarage.models.ServiceModelDto;
+import com.example.smartgarage.models.User;
 import com.example.smartgarage.services.contracts.CarService;
+import com.example.smartgarage.services.contracts.ExchangeService;
 import com.example.smartgarage.services.contracts.PartService;
 import com.example.smartgarage.services.contracts.ServiceService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,21 +30,21 @@ public class ServiceMvcController {
 
     private final ServiceService serviceService;
 
+    private final ExchangeService exchangeService;
+
     private final ServiceModelMapper serviceModelMapper;
 
     private final AuthenticationHelper authenticationHelper;
 
-    private final ExchangeServiceImpl exchangeService;
-
     public ServiceMvcController(CarService carService, ServiceService serviceService,
-                                PartService partService, ServiceModelMapper serviceModelMapper,
-                                AuthenticationHelper authenticationHelper, ExchangeServiceImpl exchangeService) {
+                                PartService partService, ExchangeService exchangeService, ServiceModelMapper serviceModelMapper,
+                                AuthenticationHelper authenticationHelper) {
         this.carService = carService;
         this.serviceService = serviceService;
         this.partService = partService;
+        this.exchangeService = exchangeService;
         this.serviceModelMapper = serviceModelMapper;
         this.authenticationHelper = authenticationHelper;
-        this.exchangeService = exchangeService;
     }
 
     @ModelAttribute("isAuthenticated")
@@ -62,6 +62,7 @@ public class ServiceMvcController {
         model.addAttribute("service", service);
         model.addAttribute("car", service.getCar());
         model.addAttribute("parts", parts);
+        session.setAttribute("serviceId", id);
         return "ServiceDetailsView";
     }
 
@@ -130,9 +131,21 @@ public class ServiceMvcController {
     }
 
     @GetMapping("/convert")
-    public String convertCurrency(@RequestParam double amount, @RequestParam String toCurrency, Model model) {
+    public String convertCurrency(@RequestParam double amount, @RequestParam String toCurrency,
+                                  Model model, HttpSession session) {
         double convertedTotal = exchangeService.convertCurrency(amount, toCurrency);
-        model.addAttribute("convertedTotal", convertedTotal + " " + toCurrency);
+        String formattedTotal = String.format("%.2f", convertedTotal);
+        model.addAttribute("convertedTotal", formattedTotal + " " + toCurrency);
+
+        User currentUser = authenticationHelper.tryGetCurrentUser(session);
+        ServiceModel service = serviceService.getById((Integer) session.getAttribute("serviceId"));
+        List<Part> parts = service.getParts();
+
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("service", service);
+        model.addAttribute("car", service.getCar());
+        model.addAttribute("parts", parts);
+
         return "ServiceDetailsView";
     }
 }

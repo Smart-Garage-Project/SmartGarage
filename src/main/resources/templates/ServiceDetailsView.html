@@ -5,12 +5,6 @@
     <title>Service Details</title>
     <link rel="stylesheet" th:href="@{/css/ServiceDetails.css}" href="../static/css/ServiceDetails.css"/>
     <link th:insert="~{fragments :: tab-icon}">
-    <style>
-        .scrollable-list {
-            max-height: 100px;
-            overflow-y: scroll;
-        }
-    </style>
 </head>
 <body>
 <header>
@@ -44,13 +38,8 @@
     </div>
     <div>
         <h3>Convert BGN to:</h3>
-        <div class="scrollable-list">
-            <ul>
-                <li th:each="currency : ${topCurrencies}">
-                    <a th:href="@{/services/convert(amount=${service.total}, toCurrency=${currency})}" th:text="${currency}"></a>
-                </li>
-            </ul>
-        </div>
+        <button th:onclick="'window.location.href=\'/services/convert?amount=' + ${service.total} + '&toCurrency=EUR\''">EUR</button>
+        <button th:onclick="'window.location.href=\'/services/convert?amount=' + ${service.total} + '&toCurrency=USD\''">USD</button>
     </div>
     <div>
         <h2>Converted Total</h2>

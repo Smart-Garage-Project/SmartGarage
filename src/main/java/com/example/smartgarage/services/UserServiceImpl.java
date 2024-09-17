@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
         User newUser = userMapper.registerFromDto(newUserDto);
 
         emailService.sendEmail(newUser.getEmail(), "Welcome to SmartGarage",
-                String.format("Your username is: %s\nYour password is: %s\nRemember to keep your Username and Password secure",
+                String.format("Your username is: %s\nYour password is: %s\nRemember to keep your Username and Password secure!",
                         newUser.getUsername(), newUser.getPassword()));
 
         return userRepository.save(newUser);
@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(int id, User user) {
-        authorizationHelper.checkIfCurrentUserIsEmployee(user);
+        authorizationHelper.checkIfCurrentUserIsSameAsTargetUser(user, id);
         userRepository.deleteById(id);
     }
 

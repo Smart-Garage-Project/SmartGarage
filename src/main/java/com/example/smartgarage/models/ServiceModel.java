@@ -20,7 +20,7 @@ public class ServiceModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "car_id")
     private Car car;
 
