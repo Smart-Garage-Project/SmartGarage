@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ExchangeServiceImpl {
 
@@ -38,5 +41,15 @@ public class ExchangeServiceImpl {
             throw new IllegalArgumentException("Invalid target currency: " + toCurrency);
         }
         return amount * rate;
+    }
+
+    public List<String> getTopCurrencies() {
+        ExchangeRateResponse response = getExchangeRates();
+        if (response == null || response.getConversion_rates() == null) {
+            throw new IllegalStateException("Failed to retrieve exchange rates");
+        }
+        return response.getConversion_rates().keySet().stream()
+                .limit(5)
+                .collect(Collectors.toList());
     }
 }
