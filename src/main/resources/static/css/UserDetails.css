@@ -54,7 +54,7 @@ h1 {
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 4px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    text-align: center; /* Center the text */
+    text-align: center;
 }
 
 .section h2 {
@@ -67,6 +67,22 @@ h1 {
     font-size: 16px;
     color: #666;
     margin: 5px 0;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+}
+
+.user-button {
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
 }
 
 .button {

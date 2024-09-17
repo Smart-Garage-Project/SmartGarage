@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.Length;
 public class NewUserDto {
 
     @NotEmpty
-    @Length(min = 2, max = 20)
+    @Length(min = 8, max = 20)
     private String username;
 
     @NotEmpty
@@ -21,7 +21,7 @@ public class NewUserDto {
     private String email;
 
     @NotEmpty
-    @Length(min = 13, max = 13)
+    @Length(min = 10, max = 10, message = "Phone number must be 10 characters long")
     private String phoneNumber;
 
     private boolean isEmployee;

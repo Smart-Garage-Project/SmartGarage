@@ -1,5 +1,6 @@
 package com.example.smartgarage.controllers.MVC;
 
+import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.helpers.AuthenticationHelper;
 import com.example.smartgarage.helpers.ServiceModelMapper;
 import com.example.smartgarage.models.*;
@@ -53,6 +54,7 @@ public class ServiceMvcController {
         ServiceModel service = serviceService.getById(id);
         List<Part> parts = service.getParts();
 
+        model.addAttribute("currentUser", currentUser);
         model.addAttribute("service", service);
         model.addAttribute("car", service.getCar());
         model.addAttribute("parts", parts);
@@ -73,13 +75,12 @@ public class ServiceMvcController {
             return "CreateServiceView";
         }
 
-        //TODO Add validation for the license plate
-
         User currentUser = authenticationHelper.tryGetCurrentUser(session);
-        Car car = carService.getByLicensePlate(serviceModelDto.getLicensePlate());
-        if (car == null) {
-            bindingResult.rejectValue("licensePlate", "error.newService",
-                    "Car not found with the given license plate");
+
+        try {
+            carService.getByLicensePlate(serviceModelDto.getLicensePlate());
+        } catch (EntityNotFoundException e) {
+            bindingResult.rejectValue("licensePlate", "error.licensePlate", e.getMessage());
             return "CreateServiceView";
         }
 

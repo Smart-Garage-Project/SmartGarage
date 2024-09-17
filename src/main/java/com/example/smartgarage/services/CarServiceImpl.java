@@ -1,7 +1,9 @@
 package com.example.smartgarage.services;
 
+import com.example.smartgarage.exceptions.ArgumentsMismatchException;
 import com.example.smartgarage.exceptions.EntityDuplicateException;
 import com.example.smartgarage.exceptions.EntityNotFoundException;
+import com.example.smartgarage.exceptions.InvalidYearException;
 import com.example.smartgarage.helpers.AuthorizationHelper;
 import com.example.smartgarage.helpers.CarMapper;
 import com.example.smartgarage.models.*;
@@ -13,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.time.Year;
 
 @Service
 public class CarServiceImpl implements CarService {
@@ -69,10 +73,6 @@ public class CarServiceImpl implements CarService {
             throw new EntityDuplicateException("Car", "license plate", carDto.getLicensePlate());
         });
 
-        carRepository.findByVin(carDto.getVin()).ifPresent(car -> {
-            throw new EntityDuplicateException("Car", "vin", carDto.getVin());
-        });
-
         Brand brand;
 
         try {
@@ -92,6 +92,10 @@ public class CarServiceImpl implements CarService {
             model.setName(carDto.getModelName());
             model.setBrand(brand);
             modelService.create(model);
+        }
+
+        if (carDto.getYear() < 2000 || carDto.getYear() > Year.now().getValue()) {
+            throw new InvalidYearException(2000, Year.now().getValue());
         }
 
         Car car = carMapper.fromDto(carDto);

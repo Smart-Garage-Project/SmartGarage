@@ -1,5 +1,6 @@
 package com.example.smartgarage.controllers.MVC;
 
+import com.example.smartgarage.exceptions.AuthorizationException;
 import com.example.smartgarage.helpers.AuthenticationHelper;
 import com.example.smartgarage.models.Part;
 import com.example.smartgarage.models.User;
@@ -38,8 +39,13 @@ public class PartsMvcController {
         Pageable pageable = PageRequest.of(page, 3);
         Page<Part> partsPage = partService.getParts(pageable);
         model.addAttribute("partsPage", partsPage);
-        User currentUser = authenticationHelper.tryGetCurrentUser(session);
-        model.addAttribute("currentUser", currentUser);
+
+        try {
+            User currentUser = authenticationHelper.tryGetCurrentUser(session);
+            model.addAttribute("currentUser", currentUser);
+        } catch (AuthorizationException e) {
+            return "WhatWeOfferView";
+        }
 
         return "WhatWeOfferView";
     }

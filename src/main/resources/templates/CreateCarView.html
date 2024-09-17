@@ -17,32 +17,32 @@
         <div>
             <label for="ownerUsername">Owner:</label>
             <input type="text" id="ownerUsername" th:field="*{ownerUsername}" required/>
-            <div th:if="${#fields.hasErrors('ownerUsername')}" th:errors="*{ownerUsername}" class="error-message"></div>
+            <div th:if="${#fields.hasErrors('ownerUsername')}" th:errors="*{ownerUsername}" class="error"></div>
         </div>
         <div>
             <label for="vin">VIN:</label>
             <input type="text" id="vin" th:field="*{vin}" required/>
-            <div th:if="${#fields.hasErrors('vin')}" th:errors="*{vin}" class="error-message"></div>
+            <div th:if="${#fields.hasErrors('vin')}" th:errors="*{vin}" class="error"></div>
         </div>
         <div>
             <label for="licensePlate">License Plate:</label>
             <input type="text" id="licensePlate" th:field="*{licensePlate}" required/>
-            <div th:if="${#fields.hasErrors('licensePlate')}" th:errors="*{licensePlate}" class="error-message"></div>
+            <div th:if="${#fields.hasErrors('licensePlate')}" th:errors="*{licensePlate}" class="error"></div>
         </div>
         <div>
             <label for="brand">Brand:</label>
             <input type="text" id="brand" th:field="*{brandName}" required/>
-            <div th:if="${#fields.hasErrors('brandName')}" th:errors="*{brandName}" class="error-message"></div>
+            <div th:if="${#fields.hasErrors('brandName')}" th:errors="*{brandName}" class="error"></div>
         </div>
         <div>
             <label for="model">Model:</label>
             <input type="text" id="model" th:field="*{modelName}" required/>
-            <div th:if="${#fields.hasErrors('modelName')}" th:errors="*{modelName}" class="error-message"></div>
+            <div th:if="${#fields.hasErrors('modelName')}" th:errors="*{modelName}" class="error"></div>
         </div>
         <div>
             <label for="year">Year:</label>
             <input type="number" id="year" th:field="*{year}" required/>
-            <div th:if="${#fields.hasErrors('year')}" th:errors="*{year}" class="error-message"></div>
+            <div th:if="${#fields.hasErrors('year')}" th:errors="*{year}" class="error"></div>
         </div>
         <div>
             <button type="submit">Create Car</button>

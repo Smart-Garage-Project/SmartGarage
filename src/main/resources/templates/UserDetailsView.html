@@ -18,12 +18,12 @@
         <p><strong>Email:</strong> <span th:text="${user.getEmail()}"></span></p>
         <p><strong>Phone Number:</strong> <span th:text="${user.getPhoneNumber()}"></span></p>
     </div>
-    <div th:if="${currentUser.id} == ${user.id}">
+    <div th:if="${currentUser.id} == ${user.id}" class="button-container">
         <form th:action="@{/users/{id}/update(id=${user.id})}" method="get">
-            <button type="submit">Update Password</button>
+            <button type="submit" class="user-button">Update Password</button>
         </form>
         <form th:action="@{/users/{id}/delete(id=${user.id})}" method="post" onsubmit="return confirm('Are you sure you want to delete your account?');">
-            <button type="submit">Delete Account</button>
+            <button type="submit" class="user-button">Delete Account</button>
         </form>
     </div>
 

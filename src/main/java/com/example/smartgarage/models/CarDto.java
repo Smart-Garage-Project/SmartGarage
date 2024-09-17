@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Setter
@@ -17,6 +18,7 @@ public class CarDto {
     private String licensePlate;
 
     @NotEmpty
+    @Length(min = 17, max = 17, message = "VIN must be exactly 17 characters long")
     private String vin;
 
     @NotNull

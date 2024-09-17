@@ -1,6 +1,8 @@
 package com.example.smartgarage.controllers.MVC;
 
 import com.example.smartgarage.exceptions.EntityDuplicateException;
+import com.example.smartgarage.exceptions.EntityNotFoundException;
+import com.example.smartgarage.exceptions.InvalidYearException;
 import com.example.smartgarage.helpers.AuthenticationHelper;
 import com.example.smartgarage.models.Car;
 import com.example.smartgarage.models.CarDto;
@@ -8,6 +10,7 @@ import com.example.smartgarage.models.ServiceModel;
 import com.example.smartgarage.models.User;
 import com.example.smartgarage.services.contracts.CarService;
 import com.example.smartgarage.services.contracts.ServiceService;
+import com.example.smartgarage.services.contracts.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -26,13 +29,16 @@ public class CarMvcController {
 
     private final CarService carService;
 
+    private final UserService userService;
+
     private final ServiceService serviceService;
 
     private final AuthenticationHelper authenticationHelper;
 
-    public CarMvcController(CarService carService, ServiceService serviceService,
+    public CarMvcController(CarService carService, UserService userService, ServiceService serviceService,
                             AuthenticationHelper authenticationHelper) {
         this.carService = carService;
+        this.userService = userService;
         this.serviceService = serviceService;
         this.authenticationHelper = authenticationHelper;
     }
@@ -88,11 +94,17 @@ public class CarMvcController {
 
         try {
             User currentUser = authenticationHelper.tryGetCurrentUser(session);
+            userService.getByUsername(newCarDto.getOwnerUsername());
             carService.create(newCarDto, currentUser);
             return "redirect:/employee-panel";
+        }catch (EntityNotFoundException e) {
+            bindingResult.rejectValue("ownerUsername", "error.ownerUsername", e.getMessage());
+            return "CreateCarView";
         } catch (EntityDuplicateException e) {
             bindingResult.rejectValue("licensePlate", "error.licensePlate", e.getMessage());
-            bindingResult.rejectValue("vin", "error.vin", e.getMessage());
+            return "CreateCarView";
+        } catch (InvalidYearException e) {
+            bindingResult.rejectValue("year", "error.year", e.getMessage());
             return "CreateCarView";
         }
     }

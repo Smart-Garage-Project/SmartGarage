@@ -17,7 +17,7 @@
         <div>
             <label for="licensePlate">License Plate:</label>
             <input type="text" id="licensePlate" th:field="*{licensePlate}" required/>
-            <div th:if="${#fields.hasErrors('licensePlate')}" th:errors="*{licensePlate}" class="error-message"></div>
+            <div th:if="${#fields.hasErrors('licensePlate')}" th:errors="*{licensePlate}" class="error"></div>
         </div>
         <div>
             <button type="submit">Create Service</button>

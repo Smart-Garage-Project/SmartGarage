@@ -17,17 +17,17 @@
         <div>
             <label for="username">Username:</label>
             <input type="text" id="username" th:field="*{username}" required/>
-            <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+            <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></div>
         </div>
         <div>
             <label for="email">Email:</label>
             <input type="email" id="email" th:field="*{email}" required/>
-            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></div>
         </div>
         <div>
             <label for="phoneNumber">Phone Number:</label>
             <input type="text" id="phoneNumber" th:field="*{phoneNumber}" required/>
-            <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+            <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error"></div>
         </div>
         <div class="form-group">
             <label for="isEmployee">Employee:</label>
