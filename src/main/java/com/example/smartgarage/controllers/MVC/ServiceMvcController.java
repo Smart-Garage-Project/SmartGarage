@@ -4,6 +4,7 @@ import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.helpers.AuthenticationHelper;
 import com.example.smartgarage.helpers.ServiceModelMapper;
 import com.example.smartgarage.models.*;
+import com.example.smartgarage.services.ExchangeServiceImpl;
 import com.example.smartgarage.services.contracts.CarService;
 import com.example.smartgarage.services.contracts.PartService;
 import com.example.smartgarage.services.contracts.ServiceService;
@@ -33,14 +34,17 @@ public class ServiceMvcController {
 
     private final AuthenticationHelper authenticationHelper;
 
+    private final ExchangeServiceImpl exchangeService;
+
     public ServiceMvcController(CarService carService, ServiceService serviceService,
                                 PartService partService, ServiceModelMapper serviceModelMapper,
-                                AuthenticationHelper authenticationHelper) {
+                                AuthenticationHelper authenticationHelper, ExchangeServiceImpl exchangeService) {
         this.carService = carService;
         this.serviceService = serviceService;
         this.partService = partService;
         this.serviceModelMapper = serviceModelMapper;
         this.authenticationHelper = authenticationHelper;
+        this.exchangeService = exchangeService;
     }
 
     @ModelAttribute("isAuthenticated")
@@ -117,5 +121,18 @@ public class ServiceMvcController {
         List<Part> parts = partIds.stream().map(partService::getById).toList();
         serviceService.addPartsToService(id, parts, currentUser);
         return "redirect:/services/" + id;
+    }
+
+    @GetMapping
+    public String getServiceDetails(Model model) {
+        model.addAttribute("topCurrencies", exchangeService.getTopCurrencies());
+        return "ServiceDetailsView";
+    }
+
+    @GetMapping("/convert")
+    public String convertCurrency(@RequestParam double amount, @RequestParam String toCurrency, Model model) {
+        double convertedTotal = exchangeService.convertCurrency(amount, toCurrency);
+        model.addAttribute("convertedTotal", convertedTotal + " " + toCurrency);
+        return "ServiceDetailsView";
     }
 }

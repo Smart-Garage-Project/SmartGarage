@@ -5,6 +5,12 @@
     <title>Service Details</title>
     <link rel="stylesheet" th:href="@{/css/ServiceDetails.css}" href="../static/css/ServiceDetails.css"/>
     <link th:insert="~{fragments :: tab-icon}">
+    <style>
+        .scrollable-list {
+            max-height: 100px;
+            overflow-y: scroll;
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -35,6 +41,20 @@
     <div>
         <h2>Total</h2>
         <p th:text="${service.total} + ' ' + 'BGN'"></p>
+    </div>
+    <div>
+        <h3>Convert BGN to:</h3>
+        <div class="scrollable-list">
+            <ul>
+                <li th:each="currency : ${topCurrencies}">
+                    <a th:href="@{/services/convert(amount=${service.total}, toCurrency=${currency})}" th:text="${currency}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <h2>Converted Total</h2>
+        <p th:text="${convertedTotal}"></p>
     </div>
     <div th:if="${session.isEmployee}">
         <a th:href="@{/services/{id}/edit(id=${service.id})}" class="edit-button">Add Parts</a>
