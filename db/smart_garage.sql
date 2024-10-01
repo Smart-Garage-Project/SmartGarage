@@ -1,41 +1,4 @@
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
-                         `id` int(11) NOT NULL AUTO_INCREMENT,
-                         `username` varchar(20) NOT NULL,
-                         `password` varchar(20) NOT NULL,
-                         `email` varchar(50) NOT NULL,
-                         `phone_number` varchar(13) NOT NULL,
-                         `is_employee` tinyint(1) NOT NULL,
-                         PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES
-                        (1,'IPopov','Ivan123!@#','ivan.popov@example.com','+359881234567',1),
-                        (2,'MIvanova','MariaPass!98','maria.ivanova@example.com','+359892345678',0),
-                        (3,'GPetrov','GeoPetro@2024','georgi.petrov@example.com','+359873456789',1),
-                        (4,'VStoyanova','Vessy@1234','vesela.stoyanova@example.com','+359884567890',0),
-                        (5,'NDimitrov','NikoPass!567','nikolay.dimitrov@example.com','+359895678901',0),
-                        (6,'PAsenov','m^zl400S','smart_garage_dp_user@abv.bg','+359881242513',0);
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `brands`
---
-
 DROP TABLE IF EXISTS `brands`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -46,10 +9,7 @@ CREATE TABLE `brands` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
 -- Dumping data for table `brands`
---
-
 LOCK TABLES `brands` WRITE;
 /*!40000 ALTER TABLE `brands` DISABLE KEYS */;
 INSERT INTO `brands` VALUES
@@ -58,10 +18,7 @@ INSERT INTO `brands` VALUES
 /*!40000 ALTER TABLE `brands` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
 -- Table structure for table `car_classes`
---
-
 DROP TABLE IF EXISTS `car_classes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -72,10 +29,7 @@ CREATE TABLE `car_classes` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
 -- Dumping data for table `car_classes`
---
-
 LOCK TABLES `car_classes` WRITE;
 /*!40000 ALTER TABLE `car_classes` DISABLE KEYS */;
 INSERT INTO `car_classes` VALUES
@@ -86,10 +40,7 @@ INSERT INTO `car_classes` VALUES
 /*!40000 ALTER TABLE `car_classes` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
 -- Table structure for table `models`
---
-
 DROP TABLE IF EXISTS `models`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -106,10 +57,7 @@ CREATE TABLE `models` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
 -- Dumping data for table `models`
---
-
 LOCK TABLES `models` WRITE;
 /*!40000 ALTER TABLE `models` DISABLE KEYS */;
 INSERT INTO `models` VALUES
@@ -124,10 +72,34 @@ INSERT INTO `models` VALUES
 /*!40000 ALTER TABLE `models` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `cars`
---
+-- Table structure for table `users`
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+                         `id` int(11) NOT NULL AUTO_INCREMENT,
+                         `username` varchar(20) NOT NULL,
+                         `password` varchar(20) NOT NULL,
+                         `email` varchar(50) NOT NULL,
+                         `phone_number` varchar(13) NOT NULL,
+                         `is_employee` tinyint(1) NOT NULL,
+                         PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+-- Dumping data for table `users`
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES
+                        (1,'DKomitski','Dimitar123!@#','dimitar_smart_garage@abv.bg','0881234567',1),
+                        (2,'PetkoAsenov','Petko321!98','petko.asenov@gmail.com','0892345678',0),
+                        (3,'GPetrov','GeoPetro@2024','georgi.petrov@gmail.com','0873456789',1),
+                        (4,'VStoyanova','Vessy@1234','vesela.stoyanova@gmail.com','0884567890',0),
+                        (5,'NDimitrov','NikoPass!567','nikolay.dimitrov@gmail.com','0895678901',0);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+-- Table structure for table `cars`
 DROP TABLE IF EXISTS `cars`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -146,13 +118,10 @@ CREATE TABLE `cars` (
                         CONSTRAINT `cars_brands_id_fk` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`),
                         CONSTRAINT `cars_models_id_fk` FOREIGN KEY (`model_id`) REFERENCES `models` (`id`),
                         CONSTRAINT `cars_users_id_fk` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
 -- Dumping data for table `cars`
---
-
 LOCK TABLES `cars` WRITE;
 /*!40000 ALTER TABLE `cars` DISABLE KEYS */;
 INSERT INTO `cars` VALUES
@@ -164,10 +133,7 @@ INSERT INTO `cars` VALUES
 /*!40000 ALTER TABLE `cars` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
 -- Table structure for table `parts`
---
-
 DROP TABLE IF EXISTS `parts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -179,10 +145,7 @@ CREATE TABLE `parts` (
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
 -- Dumping data for table `parts`
---
-
 LOCK TABLES `parts` WRITE;
 /*!40000 ALTER TABLE `parts` DISABLE KEYS */;
 INSERT INTO `parts` VALUES
@@ -207,10 +170,7 @@ INSERT INTO `parts` VALUES
 /*!40000 ALTER TABLE `parts` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
 -- Table structure for table `services`
---
-
 DROP TABLE IF EXISTS `services`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -220,27 +180,28 @@ CREATE TABLE `services` (
                             `user_id` int(11) NOT NULL,
                             `total` int(11) DEFAULT NULL,
                             `date` date NOT NULL,
+                            `car_license_plate` varchar(10) NOT NULL,
                             PRIMARY KEY (`id`),
-                            KEY `services_cars_id_fk` (`car_id`),
                             KEY `services_users_id_fk` (`user_id`),
+                            KEY `services_cars_id_fk` (`car_id`),
                             CONSTRAINT `services_cars_id_fk` FOREIGN KEY (`car_id`) REFERENCES `cars` (`id`) ON DELETE CASCADE,
                             CONSTRAINT `services_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
 -- Dumping data for table `services`
---
-
 LOCK TABLES `services` WRITE;
 /*!40000 ALTER TABLE `services` DISABLE KEYS */;
+INSERT INTO `services` VALUES
+                           (46,1,2,1300,'2024-09-15','CB 4881 AM'),
+                           (47,1,2,4100,'2024-09-15','CB 4881 AM'),
+                           (49,1,2,3300,'2024-09-16','CB 4881 AM'),
+                           (50,1,2,1100,'2024-09-16','CB 4881 AM'),
+                           (51,1,2,2170,'2024-09-16','CB 4881 AM');
 /*!40000 ALTER TABLE `services` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
 -- Table structure for table `services_parts`
---
-
 DROP TABLE IF EXISTS `services_parts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -250,15 +211,43 @@ CREATE TABLE `services_parts` (
                                   KEY `services_parts_parts_id_fk` (`part_id`),
                                   KEY `services_parts_services_id_fk` (`service_id`),
                                   CONSTRAINT `services_parts_parts_id_fk` FOREIGN KEY (`part_id`) REFERENCES `parts` (`id`),
-                                  CONSTRAINT `services_parts_services_id_fk` FOREIGN KEY (`service_id`) REFERENCES `services` (`id`)
+                                  CONSTRAINT `services_parts_services_id_fk` FOREIGN KEY (`service_id`) REFERENCES `services` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
 -- Dumping data for table `services_parts`
---
-
 LOCK TABLES `services_parts` WRITE;
 /*!40000 ALTER TABLE `services_parts` DISABLE KEYS */;
+INSERT INTO `services_parts` VALUES
+                                 (46,1),
+                                 (46,4),
+                                 (46,5),
+                                 (46,6),
+                                 (46,7),
+                                 (46,8),
+                                 (47,8),
+                                 (47,9),
+                                 (47,10),
+                                 (47,12),
+                                 (47,13),
+                                 (49,1),
+                                 (49,4),
+                                 (49,5),
+                                 (49,6),
+                                 (49,13),
+                                 (49,14),
+                                 (49,15),
+                                 (49,16),
+                                 (50,5),
+                                 (50,6),
+                                 (50,7),
+                                 (50,8),
+                                 (51,1),
+                                 (51,5),
+                                 (51,6),
+                                 (51,9),
+                                 (51,10),
+                                 (51,13),
+                                 (51,15);
 /*!40000 ALTER TABLE `services_parts` ENABLE KEYS */;
 UNLOCK TABLES;
